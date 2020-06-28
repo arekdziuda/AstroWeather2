@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    tools:context=".SunFragment">
+
+    <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:shrinkColumns="0,1"
+        android:stretchColumns="1">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:paddingTop="10dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:textSize="30dp"
+                android:text="Bieżący czas:"
+                android:textColor="@android:color/white" />
+
+            <TextView
+                android:id="@+id/sun_current_time_txt_view"
+                android:layout_width="0dp"
+                android:textSize="30dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Data"
+                android:textColor="@android:color/white" />
+        </TableRow>
+
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:paddingTop="10dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:textSize="30dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Długość geograficzna:"
+                android:textColor="@android:color/white" />
+
+            <TextView
+                android:id="@+id/sun_longitude"
+                android:layout_width="0dp"
+                android:textSize="30dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="20:00"
+                android:textColor="@android:color/white" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:paddingTop="10dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:textSize="30dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Szerokość geograficzna:"
+                android:textColor="@android:color/white" />
+
+            <TextView
+                android:id="@+id/sun_latitude"
+                android:layout_width="0dp"
+                android:textSize="30dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="5:50"
+                android:textColor="@android:color/white" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:paddingTop="10dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:textSize="30dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Wschód:"
+                android:textColor="@android:color/white" />
+
+            <TextView
+                android:id="@+id/sun_rise_time"
+                android:layout_width="0dp"
+                android:textSize="30dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="20:00"
+                android:textColor="@android:color/white" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:paddingTop="10dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:textSize="30dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Azymut:"
+                android:textColor="@android:color/white" />
+
+            <TextView
+                android:id="@+id/sun_rise_azymut"
+                android:layout_width="0dp"
+                android:textSize="30dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="20:00"
+                android:textColor="@android:color/white" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:paddingTop="10dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:textSize="30dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Zachód:"
+                android:textColor="@android:color/white" />
+
+            <TextView
+                android:id="@+id/sunset_time"
+                android:layout_width="0dp"
+                android:textSize="30dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="5:50"
+                android:textColor="@android:color/white" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:paddingTop="10dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Azymut:"
+                android:textSize="30dp"
+                android:textColor="@android:color/white" />
+
+            <TextView
+                android:id="@+id/sunset_azymut"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="20:00"
+                android:textSize="30dp"
+                android:textColor="@android:color/white" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:paddingTop="10dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:textSize="30dp"
+                android:text="Wschód cywilny:"
+                android:textColor="@android:color/white" />
+
+            <TextView
+                android:id="@+id/sun_rise_civil"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:textSize="30dp"
+                android:text="Data"
+                android:textColor="@android:color/white" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:paddingTop="10dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:textSize="30dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Zmierzch cywilny:"
+                android:textColor="@android:color/white" />
+
+            <TextView
+                android:id="@+id/sun_set_civil"
+                android:layout_width="0dp"
+                android:textSize="30dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Data"
+                android:textColor="@android:color/white" />
+        </TableRow>
+    </TableLayout>
+</FrameLayout>
