@@ -1,15 +1,11 @@
-package com.example.viewpager2;
+package com.example.viewpager2.fragments;
 
 import android.content.Context;
-import android.content.res.Configuration;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,9 +14,11 @@ import androidx.fragment.app.Fragment;
 
 import com.astrocalculator.AstroCalculator;
 import com.astrocalculator.AstroDateTime;
+import com.example.viewpager2.MainFrameActivity;
+import com.example.viewpager2.ProjectConstants;
+import com.example.viewpager2.R;
 
 import java.util.Calendar;
-import java.util.Date;
 
 /**
  * A simple {@link Fragment} subclass.
