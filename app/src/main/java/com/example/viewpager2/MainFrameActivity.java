@@ -1,19 +1,30 @@
 package com.example.viewpager2;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.DisplayMetrics;
+import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
-import com.google.android.material.tabs.TabLayout;
-import com.google.android.material.tabs.TabLayoutMediator;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.astrocalculator.AstroCalculator;
 import com.astrocalculator.AstroDateTime;
+import com.example.viewpager2.fragments.MoonFragment;
+import com.example.viewpager2.fragments.SunFragment;
+import com.example.viewpager2.weather.RequestManager;
+import com.example.viewpager2.weather.YahooWeatherRequest;
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -36,6 +47,10 @@ public class MainFrameActivity extends AppCompatActivity {
 
     private ScreenSizeOrientation screenOrientation = ScreenSizeOrientation.PHONE_PORTRAIT;
 
+
+    private JSONObject jsonObject;
+    private String location = "lodz,pl";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +70,7 @@ public class MainFrameActivity extends AppCompatActivity {
         }
     }
 
+
     private void initializePortraitLayout(Bundle bundle) {
         viewPager.setAdapter(createCardAdapter());
         new TabLayoutMediator(tabLayout, viewPager,
@@ -62,9 +78,11 @@ public class MainFrameActivity extends AppCompatActivity {
                     @Override
                     public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
                         if (position == 0) {
-                            tab.setText("Moon fragment");
+                            tab.setText("Moon");
                         } else if (position == 1) {
-                            tab.setText("Sun fragment");
+                            tab.setText("Sun");
+                        } else if (position == 2) {
+                            tab.setText("Info");
                         }
                     }
                 }).attach();
@@ -114,6 +132,11 @@ public class MainFrameActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
+        try {
+            sendCoordinatesApiRequest();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         DisplayMetrics metrics = new DisplayMetrics();
         this.getWindowManager().getDefaultDisplay().getMetrics(metrics);
         ScreenUtilities screenUtilities = new ScreenUtilities(this);
@@ -205,6 +228,58 @@ public class MainFrameActivity extends AppCompatActivity {
 
     public interface SunMoonRefreshableUI {
         void refreshTime(Bundle bundle, Double longitude, Double latitude);
+
         void refreshSunMoonWeather(Double longitude, Double latitude);
+    }
+
+
+
+    private void sendCoordinatesApiRequest() {
+            RequestManager requestManager = RequestManager.getInstance(this);
+
+            YahooWeatherRequest request = new YahooWeatherRequest(Request.Method.GET, null, true, null, String.valueOf(this.longitude), String.valueOf(this.latitude), new Response.Listener() {
+                @Override
+                public void onResponse(Object response) {
+                    try {
+                        JSONObject locationObject = ((JSONObject) response).getJSONObject("location");
+                        MainFrameActivity.this.location = locationObject.getString("city");
+                        String woeid = locationObject.getString("woeid");
+                        System.out.println(woeid);
+                    } catch(JSONException e) {
+                        Toast.makeText(MainFrameActivity.this, e.toString(), Toast.LENGTH_LONG).show();
+
+                    }
+               /*     for (ApiRequestObtainable ob : MainActivity.this.apiSubscribers)
+                        ob.refreshUI((JSONObject) response);
+
+                    MainActivity.this.jsonObject = (JSONObject) response;
+                    if (!APPLICATION_RUNNING) {
+                        MainActivity.this.jsonApiTimeToUpdate = DateUtils.addMinutes(new Date(System.currentTimeMillis()), ProjectConstants.MINUTES_TILL_NEXT_API_REQUEST_IN_MINUTES);
+                        SharedPreferencesUtility.writeTimeToUpdateJsonOnStart(MainActivity.this, MainActivity.this.jsonApiTimeToUpdate.toString());
+                    }
+
+                    try {
+                        // serialize the obtained object to the file
+                        FIleSystemUtilities.serializeJsonToTheFile(MainActivity.this, ProjectConstants.SERIALIZED_WEATHER_JSON_FILE_NAME, (JSONObject) response);
+                    } catch(IOException e) {
+                        Toast.makeText(MainActivity.this, e.toString(), Toast.LENGTH_LONG).show();*/
+
+                        Log.e("MainActivity", "Error while serializing JSONObject");
+                  //  }
+
+
+                    Log.e("Response", ((JSONObject) response).toString());
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    // Add error handling here
+                    Log.e("API error: ", "#onErrorResponse in MainActivity");
+                }
+            });
+
+
+            requestManager.addToRequestQueue(request);
+
     }
 }
