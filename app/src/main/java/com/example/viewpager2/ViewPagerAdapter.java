@@ -7,10 +7,14 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
+import com.example.viewpager2.fragments.BasicInfoFragment;
+import com.example.viewpager2.fragments.MoonFragment;
+import com.example.viewpager2.fragments.SunFragment;
+
 public class ViewPagerAdapter extends FragmentStateAdapter {
 
     private Bundle bundle;
-    private static final int CARD_ITEM_SIZE = 2;
+    private static final int CARD_ITEM_SIZE = 3;
 
 
     public void setArguments(Bundle bundle) {
@@ -33,6 +37,10 @@ public class ViewPagerAdapter extends FragmentStateAdapter {
                 SunFragment sunFragment = SunFragment.newInstance(position);
                 sunFragment.setArguments(bundle);
                 return sunFragment;
+            case 2:
+                BasicInfoFragment basicInfoFragment = BasicInfoFragment.newInstance(position);
+                basicInfoFragment.setArguments(bundle);
+                return basicInfoFragment;
             default:
                 return null;
         }
