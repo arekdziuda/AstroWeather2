@@ -10,27 +10,7 @@
         android:shrinkColumns="0,1"
         android:stretchColumns="1">
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:paddingTop="20dp">
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:textSize="25dp"
-                android:text="Szerokość geograficzna:"
-                android:textColor="@android:color/white" />
-
-            <EditText
-                android:id="@+id/latitude"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:hint="0.0 - 90.0"
-                android:textColor="@android:color/white" />
-        </TableRow>
 
 
         <TableRow
@@ -55,6 +35,29 @@
                 android:hint="0.0 - 180.0"
                 android:textColor="@android:color/white" />
         </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:paddingTop="20dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:textSize="25dp"
+                android:text="Szerokość geograficzna:"
+                android:textColor="@android:color/white" />
+
+            <EditText
+                android:id="@+id/latitude"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:hint="0.0 - 90.0"
+                android:textColor="@android:color/white" />
+        </TableRow>
+
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="0dp"

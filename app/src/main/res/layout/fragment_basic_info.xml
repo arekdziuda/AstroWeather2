@@ -3,10 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary"
-    tools:context=".fragments.SunFragment">
+    android:background="@color/green_300"
+    tools:context=".fragments.BasicInfoFragment">
 
-    <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <TableLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:shrinkColumns="0,1"
@@ -25,11 +25,11 @@
                 android:textColor="@android:color/white" />
 
             <TextView
-                android:id="@+id/sun_current_time_txt_view"
+                android:id="@+id/city_current_time_txt_view"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="Data"
+                android:text="2019-04-09 22:57:26 GMT+1"
                 android:textColor="@android:color/white" />
         </TableRow>
 
@@ -47,11 +47,11 @@
                 android:textColor="@android:color/white" />
 
             <TextView
-                android:id="@+id/sun_longitude"
+                android:id="@+id/city_longitude"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="20:00"
+                android:text="20"
                 android:textColor="@android:color/white" />
         </TableRow>
 
@@ -68,11 +68,33 @@
                 android:textColor="@android:color/white" />
 
             <TextView
-                android:id="@+id/sun_latitude"
+                android:id="@+id/city_latitude"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="5:50"
+                android:text="85"
+                android:textColor="@android:color/white" />
+        </TableRow>
+
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:paddingTop="10dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Temperatura:"
+                android:textColor="@android:color/white" />
+
+            <TextView
+                android:id="@+id/city_temperature"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="30"
                 android:textColor="@android:color/white" />
         </TableRow>
 
@@ -85,121 +107,37 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="Wschód:"
+                android:text="Ciśnienie:"
                 android:textColor="@android:color/white" />
 
             <TextView
-                android:id="@+id/sun_rise_time"
+                android:id="@+id/city_pressure"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="20:00"
+                android:text="996 hPa"
                 android:textColor="@android:color/white" />
         </TableRow>
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:paddingTop="10dp">
+            <ImageView
+                android:paddingTop="50dp"
+                android:id="@+id/imageView"
+                android:layout_height="200dp"
+                android:src="@drawable/error" />
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="Azymut:"
-                android:textColor="@android:color/white" />
+        <TextView
+            android:id="@+id/city_name"
+            android:paddingTop="20dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:textSize="20dp"
+            android:gravity="top|center"
+            android:layout_weight="1"
+            android:text="New York"
+            android:textColor="@android:color/white" />
 
-            <TextView
-                android:id="@+id/sun_rise_azymut"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="20:00"
-                android:textColor="@android:color/white" />
-        </TableRow>
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:paddingTop="10dp">
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="Zachód:"
-                android:textColor="@android:color/white" />
 
-            <TextView
-                android:id="@+id/sunset_time"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="5:50"
-                android:textColor="@android:color/white" />
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:paddingTop="10dp">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="Azymut:"
-                android:textColor="@android:color/white" />
-
-            <TextView
-                android:id="@+id/sunset_azymut"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="20:00"
-                android:textColor="@android:color/white" />
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:paddingTop="10dp">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="Wschód cywilny:"
-                android:textColor="@android:color/white" />
-
-            <TextView
-                android:id="@+id/sun_rise_civil"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="Data"
-                android:textColor="@android:color/white" />
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:paddingTop="10dp">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="Zmierzch cywilny:"
-                android:textColor="@android:color/white" />
-
-            <TextView
-                android:id="@+id/sun_set_civil"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="Data"
-                android:textColor="@android:color/white" />
-        </TableRow>
     </TableLayout>
 </FrameLayout>
