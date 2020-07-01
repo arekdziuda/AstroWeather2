@@ -1,6 +1,8 @@
 package com.example.viewpager2;
 
+
 import android.content.Context;
+
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
@@ -23,7 +25,6 @@ import com.example.viewpager2.weather.RequestManager;
 import com.example.viewpager2.weather.YahooWeatherRequest;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -54,6 +55,7 @@ public class MainFrameActivity extends AppCompatActivity {
     private String DEFAULT_LOCATION = "Lodz";
     private String cityName;
     boolean searchByName;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -145,6 +147,11 @@ public class MainFrameActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
+        try {
+            sendCoordinatesApiRequest();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         DisplayMetrics metrics = new DisplayMetrics();
         this.getWindowManager().getDefaultDisplay().getMetrics(metrics);
         ScreenUtilities screenUtilities = new ScreenUtilities(this);
@@ -262,6 +269,7 @@ public class MainFrameActivity extends AppCompatActivity {
 
     public interface SunMoonRefreshableUI {
         void refreshTime(Bundle bundle, Double longitude, Double latitude);
+
         void refreshSunMoonWeather(Double longitude, Double latitude);
     }
 
@@ -274,6 +282,7 @@ public class MainFrameActivity extends AppCompatActivity {
     private void sendCoordinatesApiRequest() {
             RequestManager requestManager = RequestManager.getInstance(this);
 
+
             YahooWeatherRequest request = new YahooWeatherRequest(Request.Method.GET, null, null, String.valueOf(this.longitude), String.valueOf(this.latitude), new Response.Listener() {
                 @Override
                 public void onResponse(Object response) {
@@ -284,6 +293,7 @@ public class MainFrameActivity extends AppCompatActivity {
                             ApiSubscriber.refreshApiWeather(MainFrameActivity.this, (JSONObject) response);
                         }
                     } catch(JSONException | IOException e) {
+
                         Toast.makeText(MainFrameActivity.this, e.toString(), Toast.LENGTH_LONG).show();
 
                     }
@@ -363,5 +373,6 @@ public class MainFrameActivity extends AppCompatActivity {
             }
         });
         requestManager.addToRequestQueue(request);
+
     }
 }

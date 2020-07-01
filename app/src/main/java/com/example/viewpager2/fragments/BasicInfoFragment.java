@@ -34,6 +34,7 @@ public class BasicInfoFragment extends Fragment implements MainFrameActivity.Api
     private TextView city_name;
     private ImageView imageView;
 
+
     public BasicInfoFragment() {
         // Required empty public constructor
     }
