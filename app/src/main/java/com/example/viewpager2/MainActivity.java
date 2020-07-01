@@ -1,23 +1,24 @@
 package com.example.viewpager2;
 
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     private int refresh;
     EditText latitude;
     EditText longitude;
+    EditText cityName;
+    Switch simpleSwitch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +27,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         Button confirm = findViewById(R.id.button);
         latitude = findViewById(R.id.latitude);
         longitude = findViewById(R.id.longitude);
+        cityName = findViewById(R.id.city_name);
+        simpleSwitch = findViewById(R.id.simpleSwitch);
 
         Spinner spinner = findViewById(R.id.refresh);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
@@ -34,6 +37,22 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(this);
 
+    /*    simpleSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(simpleSwitch.isChecked()){
+                    longitude.setVisibility(View.GONE);
+                    latitude.setVisibility(View.GONE);
+                    cityName.setVisibility(View.VISIBLE);
+                }
+                else{
+                    longitude.setVisibility(View.VISIBLE);
+                    latitude.setVisibility(View.VISIBLE);
+                    cityName.setVisibility(View.GONE);
+                }
+            }
+        });
+*/
+
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -41,6 +60,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                     Intent intent = new Intent(MainActivity.this, MainFrameActivity.class);
                     intent.putExtra("latitude", Double.parseDouble(String.valueOf(latitude.getText())));
                     intent.putExtra("longitude", Double.parseDouble(String.valueOf(longitude.getText())));
+                    intent.putExtra("cityName", String.valueOf(cityName.getText()));
+                    intent.putExtra("switch", simpleSwitch.isChecked());
                     intent.putExtra("refresh", refresh);
                     startActivity(intent);
                 }
@@ -57,12 +78,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             longitude.setText("" + ProjectConstants.DMCS_LONGITUDE);
             log = String.valueOf(ProjectConstants.DMCS_LONGITUDE);
         }
-        if (Double.parseDouble(lat) < 0 || Double.parseDouble(lat) > 90) {
-            Toast.makeText(getApplicationContext(), "Szerokość geograficzna musi być z zakresu 0.0 - 90.0", Toast.LENGTH_SHORT).show();
+        if (Double.parseDouble(lat) < -90 || Double.parseDouble(lat) > 90) {
+            Toast.makeText(getApplicationContext(), "Szerokość geograficzna musi być z zakresu (-90.0 ; 90.0)", Toast.LENGTH_SHORT).show();
             return false;
         }
-        if (Double.parseDouble(log) < 0 || Double.parseDouble(log) > 180) {
-            Toast.makeText(getApplicationContext(), "Długość geograficzna musi być z zakresu 0.0 - 180.0", Toast.LENGTH_SHORT).show();
+        if (Double.parseDouble(log) < -180 || Double.parseDouble(log) > 180) {
+            Toast.makeText(getApplicationContext(), "Długość geograficzna musi być z zakresu (-180.0 ; 180.0)", Toast.LENGTH_SHORT).show();
             return false;
         }
         return true;
