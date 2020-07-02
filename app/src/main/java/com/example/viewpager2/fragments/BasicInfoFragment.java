@@ -15,6 +15,7 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.viewpager2.MainFrameActivity;
+import com.example.viewpager2.ProjectConstants;
 import com.example.viewpager2.R;
 import com.example.viewpager2.weather.Files;
 
@@ -41,6 +42,7 @@ public class BasicInfoFragment extends Fragment implements MainFrameActivity.Api
     private TextView city_weather_describe;
     private TextView city_name;
     private ImageView imageView;
+    private boolean isFahrenheit;
 
 
     public BasicInfoFragment() {
@@ -88,7 +90,7 @@ public class BasicInfoFragment extends Fragment implements MainFrameActivity.Api
 
         if (getActivity() instanceof MainFrameActivity) {
             try {
-                refreshApiWeather(((MainFrameActivity) getActivity()).getContextOfMainFrame(), ((MainFrameActivity) getActivity()).getJsonObject(), ((MainFrameActivity) getActivity()).getNameOfCity());
+                refreshApiWeather(((MainFrameActivity) getActivity()).getContextOfMainFrame(), ((MainFrameActivity) getActivity()).getJsonObject(), ((MainFrameActivity) getActivity()).getNameOfCity(), ((MainFrameActivity) getActivity()).getIsFahrenheit());
             } catch (IOException | JSONException e) {
                 e.printStackTrace();
             }
@@ -111,12 +113,12 @@ public class BasicInfoFragment extends Fragment implements MainFrameActivity.Api
     }
 
     @Override
-    public void refreshApiWeather(Context context, JSONObject jsonObject, String nameOfCity) throws IOException, JSONException {
-        refreshUI(context, jsonObject, nameOfCity);
+    public void refreshApiWeather(Context context, JSONObject jsonObject, String nameOfCity, boolean isFahrenheit) throws IOException, JSONException {
+        refreshUI(context, jsonObject, nameOfCity, isFahrenheit);
     }
 
     //  public void refreshApiWeather(JSONObject jsonObject) throws IOException, JSONException {
-    public void refreshUI(Context context, JSONObject jsonObjectFromWeb, String nameOfCity) throws IOException, JSONException {
+    public void refreshUI(Context context, JSONObject jsonObjectFromWeb, String nameOfCity, boolean isFahrenheit) throws IOException, JSONException {
         File path = context.getFilesDir();
         File file = new File(path, nameOfCity + ".json");
 
@@ -143,12 +145,20 @@ public class BasicInfoFragment extends Fragment implements MainFrameActivity.Api
         city_name.setText(locationObject.getString("city"));
         JSONObject current_observationObject = jsonObject.getJSONObject("current_observation");
         JSONObject atmosphereObject = current_observationObject.getJSONObject("atmosphere");
-        city_pressure.setText(atmosphereObject.getString("pressure") + " hPa");
+        city_pressure.setText(atmosphereObject.getString("pressure") + unitPressure(isFahrenheit));
         JSONObject conditionObject = current_observationObject.getJSONObject("condition");
-        city_temperature.setText(conditionObject.getString("temperature") + " °C");
+        city_temperature.setText(conditionObject.getString("temperature") + unitTemperature(isFahrenheit));
         city_weather_describe.setText(conditionObject.getString("text"));
         setImage(Integer.valueOf(conditionObject.getString("code")), (ImageView) getView().findViewById(R.id.imageView));
 
+    }
+
+    private String unitTemperature(boolean isFahrenheit){
+        return isFahrenheit ? ProjectConstants.fahrenheit : ProjectConstants.celsius;
+    }
+
+    private String unitPressure(boolean isFahrenheit){
+        return isFahrenheit ? ProjectConstants.HG : ProjectConstants.HPA;
     }
 
     @Override

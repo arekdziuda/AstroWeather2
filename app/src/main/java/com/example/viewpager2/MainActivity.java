@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     EditText longitude;
     EditText cityName;
     Switch simpleSwitch;
+    Switch simpleSwitchUnit;
     Spinner favourite;
     Button addToFav;
     Button clearFav;
@@ -36,6 +37,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         longitude = findViewById(R.id.longitude);
         cityName = findViewById(R.id.city_name);
         simpleSwitch = findViewById(R.id.simpleSwitch);
+        simpleSwitchUnit = findViewById(R.id.simpleSwitchUnit);
         favourite = findViewById(R.id.favourite);
         addToFav = findViewById(R.id.buttonFav);
         clearFav = findViewById(R.id.buttonFavDelete);
@@ -83,12 +85,14 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                System.out.println(simpleSwitchUnit.isChecked());
                 if (validateCoords(latitude.getText().toString(), longitude.getText().toString()) && !simpleSwitch.isChecked()) {
                     Intent intent = new Intent(MainActivity.this, MainFrameActivity.class);
                     intent.putExtra("latitude", Double.parseDouble(String.valueOf(latitude.getText())));
                     intent.putExtra("longitude", Double.parseDouble(String.valueOf(longitude.getText())));
                     intent.putExtra("cityName", "");
-                    intent.putExtra("switch", simpleSwitch.isChecked());
+                    intent.putExtra("switchName", simpleSwitch.isChecked());
+                    intent.putExtra("switchUnit", simpleSwitchUnit.isChecked());
                     intent.putExtra("refresh", refresh);
                     startActivity(intent);
                 } else if (simpleSwitch.isChecked() && !cityName.getText().toString().isEmpty()) {
@@ -96,7 +100,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                     intent.putExtra("latitude", ProjectConstants.DMCS_LATITUDE);
                     intent.putExtra("longitude", ProjectConstants.DMCS_LONGITUDE);
                     intent.putExtra("cityName", String.valueOf(cityName.getText()));
-                    intent.putExtra("switch", simpleSwitch.isChecked());
+                    intent.putExtra("switchName", simpleSwitch.isChecked());
+                    intent.putExtra("switchUnit", simpleSwitchUnit.isChecked());
                     intent.putExtra("refresh", refresh);
                     startActivity(intent);
                 } else if (!favList.isEmpty()){
@@ -104,7 +109,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                     intent.putExtra("latitude", ProjectConstants.DMCS_LATITUDE);
                     intent.putExtra("longitude", ProjectConstants.DMCS_LONGITUDE);
                     intent.putExtra("cityName", favourite.getSelectedItem().toString());
-                    intent.putExtra("switch", true);
+                    intent.putExtra("switchName", true);
+                    intent.putExtra("switchUnit", simpleSwitchUnit.isChecked());
                     intent.putExtra("refresh", refresh);
                     startActivity(intent);
                 }

@@ -15,6 +15,7 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.viewpager2.MainFrameActivity;
+import com.example.viewpager2.ProjectConstants;
 import com.example.viewpager2.R;
 import com.example.viewpager2.weather.Files;
 
@@ -85,7 +86,7 @@ public class AdvancedInfoFragment extends Fragment implements MainFrameActivity.
 
         if (getActivity() instanceof MainFrameActivity) {
             try {
-                refreshApiWeather(((MainFrameActivity) getActivity()).getContextOfMainFrame(), ((MainFrameActivity) getActivity()).getJsonObject(), ((MainFrameActivity) getActivity()).getNameOfCity());
+                refreshApiWeather(((MainFrameActivity) getActivity()).getContextOfMainFrame(), ((MainFrameActivity) getActivity()).getJsonObject(), ((MainFrameActivity) getActivity()).getNameOfCity(), ((MainFrameActivity) getActivity()).getIsFahrenheit());
             } catch (IOException | JSONException e) {
                 e.printStackTrace();
             }
@@ -107,13 +108,14 @@ public class AdvancedInfoFragment extends Fragment implements MainFrameActivity.
 
     }
 
+
     @Override
-    public void refreshApiWeather(Context context, JSONObject jsonObject, String nameOfCity) throws IOException, JSONException {
-        refreshUI(context, jsonObject, nameOfCity);
+    public void refreshApiWeather(Context context, JSONObject jsonObject, String nameOfCity, boolean isFahrenheit) throws IOException, JSONException {
+        refreshUI(context, jsonObject, nameOfCity, isFahrenheit);
     }
 
     //  public void refreshApiWeather(JSONObject jsonObject) throws IOException, JSONException {
-    public void refreshUI(Context context, JSONObject jsonObjectFromWeb, String nameOfCity) throws IOException, JSONException {
+    public void refreshUI(Context context, JSONObject jsonObjectFromWeb, String nameOfCity, boolean isFahrenheit) throws IOException, JSONException {
         File path = context.getFilesDir();
         File file = new File(path, nameOfCity + ".json");
 
@@ -137,12 +139,19 @@ public class AdvancedInfoFragment extends Fragment implements MainFrameActivity.
 
         JSONObject current_observationObject = jsonObject.getJSONObject("current_observation");
         JSONObject windObject = current_observationObject.getJSONObject("wind");
-        city_wind.setText(windObject.getString("speed") + " km/h");
+        city_wind.setText(windObject.getString("speed") + unitSpeed(isFahrenheit));
         city_wind_direction.setText(windObject.getString("direction"));
         JSONObject atmosphereObject = current_observationObject.getJSONObject("atmosphere");
         city_humidity.setText(atmosphereObject.getString("humidity") + " %");
-        city_visability.setText(atmosphereObject.getString("visibility") + " km");
+        city_visability.setText(atmosphereObject.getString("visibility") + unitDistance(isFahrenheit));
+    }
 
+    private String unitSpeed(boolean isFahrenheit){
+        return isFahrenheit ? ProjectConstants.MILE_PER_HOUR : ProjectConstants.KILOMETER_PER_HOUR;
+    }
+
+    private String unitDistance(boolean isFahrenheit){
+        return isFahrenheit ? ProjectConstants.MILE : ProjectConstants.KILOMETER;
     }
 
     @Override

@@ -15,6 +15,7 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.viewpager2.MainFrameActivity;
+import com.example.viewpager2.ProjectConstants;
 import com.example.viewpager2.R;
 import com.example.viewpager2.weather.Files;
 
@@ -105,7 +106,7 @@ public class ForecastInfoFragment extends Fragment implements MainFrameActivity.
 
         if (getActivity() instanceof MainFrameActivity) {
             try {
-                refreshApiWeather(((MainFrameActivity) getActivity()).getContextOfMainFrame(), ((MainFrameActivity) getActivity()).getJsonObject(), ((MainFrameActivity) getActivity()).getNameOfCity());
+                refreshApiWeather(((MainFrameActivity) getActivity()).getContextOfMainFrame(), ((MainFrameActivity) getActivity()).getJsonObject(), ((MainFrameActivity) getActivity()).getNameOfCity(), ((MainFrameActivity) getActivity()).getIsFahrenheit());
             } catch (IOException | JSONException e) {
                 e.printStackTrace();
             }
@@ -128,12 +129,12 @@ public class ForecastInfoFragment extends Fragment implements MainFrameActivity.
     }
 
     @Override
-    public void refreshApiWeather(Context context, JSONObject jsonObject, String nameOfCity) throws IOException, JSONException {
-        refreshUI(context, jsonObject, nameOfCity);
+    public void refreshApiWeather(Context context, JSONObject jsonObject, String nameOfCity, boolean isFahrenheit) throws IOException, JSONException {
+        refreshUI(context, jsonObject, nameOfCity, isFahrenheit);
     }
 
     //  public void refreshApiWeather(JSONObject jsonObject) throws IOException, JSONException {
-    public void refreshUI(Context context, JSONObject jsonObjectFromWeb, String nameOfCity) throws IOException, JSONException {
+    public void refreshUI(Context context, JSONObject jsonObjectFromWeb, String nameOfCity, boolean isFahrenheit) throws IOException, JSONException {
         File path = context.getFilesDir();
         File file = new File(path, nameOfCity + ".json");
 
@@ -157,24 +158,26 @@ public class ForecastInfoFragment extends Fragment implements MainFrameActivity.
 
         JSONArray forecastArray = jsonObject.getJSONArray("forecasts");
         forecast_day1.setText(forecastArray.getJSONObject(0).getString("day"));
-        forecast_temp1.setText(forecastArray.getJSONObject(0).getString("low") + " / " + forecastArray.getJSONObject(0).getString("high")  + " °C");
+        forecast_temp1.setText(forecastArray.getJSONObject(0).getString("low") + " / " + forecastArray.getJSONObject(0).getString("high")  + unitTemperature(isFahrenheit));
         setImage(Integer.valueOf(forecastArray.getJSONObject(0).getString("code")), (ImageView) getView().findViewById(R.id.forecast_image1));
         forecast_day2.setText(forecastArray.getJSONObject(1).getString("day"));
-        forecast_temp2.setText(forecastArray.getJSONObject(1).getString("low") + " / " + forecastArray.getJSONObject(1).getString("high")  + " °C");
+        forecast_temp2.setText(forecastArray.getJSONObject(1).getString("low") + " / " + forecastArray.getJSONObject(1).getString("high")  + unitTemperature(isFahrenheit));
         setImage(Integer.valueOf(forecastArray.getJSONObject(1).getString("code")), (ImageView) getView().findViewById(R.id.forecast_image2));
         forecast_day3.setText(forecastArray.getJSONObject(2).getString("day"));
-        forecast_temp3.setText(forecastArray.getJSONObject(2).getString("low") + " / " + forecastArray.getJSONObject(2).getString("high")  + " °C");
+        forecast_temp3.setText(forecastArray.getJSONObject(2).getString("low") + " / " + forecastArray.getJSONObject(2).getString("high")  + unitTemperature(isFahrenheit));
         setImage(Integer.valueOf(forecastArray.getJSONObject(2).getString("code")), (ImageView) getView().findViewById(R.id.forecast_image3));
         forecast_day4.setText(forecastArray.getJSONObject(3).getString("day"));
-        forecast_temp4.setText(forecastArray.getJSONObject(3).getString("low") + " / " + forecastArray.getJSONObject(3).getString("high")  + " °C");
+        forecast_temp4.setText(forecastArray.getJSONObject(3).getString("low") + " / " + forecastArray.getJSONObject(3).getString("high")  + unitTemperature(isFahrenheit));
         setImage(Integer.valueOf(forecastArray.getJSONObject(3).getString("code")), (ImageView) getView().findViewById(R.id.forecast_image4));
         forecast_day5.setText(forecastArray.getJSONObject(4).getString("day"));
-        forecast_temp5.setText(forecastArray.getJSONObject(4).getString("low") + " / " + forecastArray.getJSONObject(4).getString("high")  + " °C");
+        forecast_temp5.setText(forecastArray.getJSONObject(4).getString("low") + " / " + forecastArray.getJSONObject(4).getString("high")  + unitTemperature(isFahrenheit));
         setImage(Integer.valueOf(forecastArray.getJSONObject(4).getString("code")), (ImageView) getView().findViewById(R.id.forecast_image5));
-
-
-
     }
+
+    private String unitTemperature(boolean isFahrenheit){
+        return isFahrenheit ? ProjectConstants.fahrenheit : ProjectConstants.celsius;
+    }
+
 
     @Override
     public void onDetach() {

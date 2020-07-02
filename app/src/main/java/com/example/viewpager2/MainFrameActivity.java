@@ -58,6 +58,7 @@ public class MainFrameActivity extends AppCompatActivity {
     private String DEFAULT_LOCATION = "Lodz";
     private String cityName;
     boolean searchByName;
+    boolean isFahrenheit;
 
 
     @Override
@@ -72,7 +73,8 @@ public class MainFrameActivity extends AppCompatActivity {
             latitude = extras.getDouble("latitude");
             longitude = extras.getDouble("longitude");
             refresh = extras.getInt("refresh");
-            searchByName = extras.getBoolean("switch");
+            searchByName = extras.getBoolean("switchName");
+            isFahrenheit = extras.getBoolean("switchUnit");
             if (searchByName) {
                 cityName = extras.getString("cityName");
                 if (cityName.isEmpty()) {
@@ -204,6 +206,10 @@ public class MainFrameActivity extends AppCompatActivity {
         return cityName;
     }
 
+    public boolean getIsFahrenheit() {
+        return isFahrenheit;
+    }
+
     public Context getContextOfMainFrame() {
         return getApplicationContext();
     }
@@ -296,7 +302,7 @@ public class MainFrameActivity extends AppCompatActivity {
     public interface ApiRefreshableUI {
         void refreshTime(Bundle bundle) throws IOException, JSONException;
 
-        void refreshApiWeather(Context context, JSONObject jsonObject, String name) throws IOException, JSONException;
+        void refreshApiWeather(Context context, JSONObject jsonObject, String name, boolean isFahrenheit) throws IOException, JSONException;
     }
 
 
@@ -304,7 +310,7 @@ public class MainFrameActivity extends AppCompatActivity {
         RequestManager requestManager = RequestManager.getInstance(this);
 
 
-        YahooWeatherRequest request = new YahooWeatherRequest(Request.Method.GET, null, null, String.valueOf(this.longitude), String.valueOf(this.latitude), new Response.Listener() {
+        YahooWeatherRequest request = new YahooWeatherRequest(Request.Method.GET, null, null, String.valueOf(this.longitude), String.valueOf(this.latitude), isFahrenheit, new Response.Listener() {
             @Override
             public void onResponse(Object response) {
                 try {
@@ -312,7 +318,7 @@ public class MainFrameActivity extends AppCompatActivity {
                     cityName = locationObject.getString("city");
                     MainFrameActivity.this.jsonObject = (JSONObject) response;
                     for (ApiRefreshableUI ApiSubscriber : apiSubscribersList) {
-                        ApiSubscriber.refreshApiWeather(MainFrameActivity.this, (JSONObject) response, cityName);
+                        ApiSubscriber.refreshApiWeather(MainFrameActivity.this, (JSONObject) response, cityName, isFahrenheit);
                     }
                     Files update = new Files(MainFrameActivity.this, true, jsonObject);
                     update.start();
@@ -356,7 +362,7 @@ public class MainFrameActivity extends AppCompatActivity {
     private void sendCityNameApiRequest() {
         RequestManager requestManager = RequestManager.getInstance(this);
 
-        YahooWeatherRequest request = new YahooWeatherRequest(Request.Method.GET, null, null, cityName, new Response.Listener() {
+        YahooWeatherRequest request = new YahooWeatherRequest(Request.Method.GET, null, null, cityName, isFahrenheit, new Response.Listener() {
             @Override
             public void onResponse(Object response) {
                 try {
@@ -364,7 +370,7 @@ public class MainFrameActivity extends AppCompatActivity {
                     cityName = locationObject.getString("city");
                     MainFrameActivity.this.jsonObject = (JSONObject) response;
                     for (ApiRefreshableUI ApiSubscriber : apiSubscribersList) {
-                        ApiSubscriber.refreshApiWeather(MainFrameActivity.this, (JSONObject) response, cityName);
+                        ApiSubscriber.refreshApiWeather(MainFrameActivity.this, (JSONObject) response, cityName, isFahrenheit);
                     }
                     Files update = new Files(MainFrameActivity.this, true, jsonObject);
                     update.start();

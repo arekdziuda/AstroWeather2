@@ -34,16 +34,18 @@ public class YahooWeatherRequest<T> extends JsonRequest<T> {
     private String longitude;
     private String latitude;
     private boolean isCoordinateRequest;
+    private boolean isFahrenheit;
 
-    public YahooWeatherRequest(int method, String url, String requestBody, String location, Response.Listener<T> listener, Response.ErrorListener errorListener) {
+    public YahooWeatherRequest(int method, String url, String requestBody, String location, boolean isFahrenheit, Response.Listener<T> listener, Response.ErrorListener errorListener) {
         super(method, url, requestBody, listener, errorListener);
         if (location != null)
             this.location = location;
 
+        this.isFahrenheit = isFahrenheit;
         this.isCoordinateRequest = false;
     }
 
-    public YahooWeatherRequest(int method, String url, String requestBody, String longitude, String latitude, Response.Listener<T> listener, Response.ErrorListener errorListener) {
+    public YahooWeatherRequest(int method, String url, String requestBody, String longitude, String latitude, boolean isFahrenheit, Response.Listener<T> listener, Response.ErrorListener errorListener) {
         super(method, url, requestBody, listener, errorListener);
         if (longitude != null)
             this.longitude = longitude;
@@ -51,6 +53,7 @@ public class YahooWeatherRequest<T> extends JsonRequest<T> {
         if (latitude != null)
             this.latitude = latitude;
 
+        this.isFahrenheit = isFahrenheit;
         this.isCoordinateRequest = true;
     }
 
@@ -76,15 +79,20 @@ public class YahooWeatherRequest<T> extends JsonRequest<T> {
 	@Override
 	public String getUrl() {
 		String url =  this.isCoordinateRequest ? getCoordinateUrl() : getLocalizationUrl();
+		if(isFahrenheit)
+		    url+="&u=f";
+		else
+            url+="&u=c";
+
 		return url;
 	}
 
 	private String getCoordinateUrl() {
-		return baseUrl + "?lat=" + this.latitude +  "&lon=" + this.longitude + "&format=json&u=c";
+		return baseUrl + "?lat=" + this.latitude +  "&lon=" + this.longitude + "&format=json";
 	}
 
 	private String getLocalizationUrl() {
-		return baseUrl + "?location="+ location + "&format=json&u=c";
+		return baseUrl + "?location="+ location + "&format=json";
 	}
 
     @Override

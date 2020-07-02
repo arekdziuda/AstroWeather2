@@ -23,4 +23,13 @@ public final class ProjectConstants {
     public static final String BUNDLE_MOON_FULL = "MOON_FULL_MOON";
     public static final String BUNDLE_MOON_PHASE = "MOON_PHASE";
     public static final String BUNDLE_MOON_SYNODIC = "MOON_SYNODIC";
+
+    public static final String celsius = " °C";
+    public static final String fahrenheit = " °F";
+    public static final String HG = " Hg";
+    public static final String HPA = " hPa";
+    public static final String MILE_PER_HOUR = " mph";
+    public static final String KILOMETER_PER_HOUR = " km/h";
+    public static final String MILE = " mi";
+    public static final String KILOMETER = " km";
 }
