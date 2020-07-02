@@ -13,12 +13,19 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     private int refresh;
     EditText latitude;
     EditText longitude;
     EditText cityName;
     Switch simpleSwitch;
+    Spinner favourite;
+    Button addToFav;
+    Button clearFav;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,55 +36,88 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         longitude = findViewById(R.id.longitude);
         cityName = findViewById(R.id.city_name);
         simpleSwitch = findViewById(R.id.simpleSwitch);
+        favourite = findViewById(R.id.favourite);
+        addToFav = findViewById(R.id.buttonFav);
+        clearFav = findViewById(R.id.buttonFavDelete);
 
-        Spinner spinner = findViewById(R.id.refresh);
+        final Spinner spinner = findViewById(R.id.refresh);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.times, R.layout.spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(this);
 
-    /*    simpleSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(simpleSwitch.isChecked()){
-                    longitude.setVisibility(View.GONE);
-                    latitude.setVisibility(View.GONE);
-                    cityName.setVisibility(View.VISIBLE);
+        String[] fav = new String[]{"Lodz"
+        };
+
+        final List<String> favList = new ArrayList<>(Arrays.asList(fav));
+        final ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(
+                this, R.layout.spinner_item, favList);
+        spinnerArrayAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        favourite.setAdapter(spinnerArrayAdapter);
+
+        addToFav.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String city = cityName.getText().toString();
+                if (city.isEmpty())
+                    Toast.makeText(getApplicationContext(), "Wpisz nazwe miasta", Toast.LENGTH_SHORT).show();
+                else if (favList.contains(city)) {
+                    Toast.makeText(getApplicationContext(), "Podane miasto jest juz w ulubionych", Toast.LENGTH_SHORT).show();
+                } else {
+                    favList.add(cityName.getText().toString());
+                    spinnerArrayAdapter.notifyDataSetChanged();
                 }
-                else{
-                    longitude.setVisibility(View.VISIBLE);
-                    latitude.setVisibility(View.VISIBLE);
-                    cityName.setVisibility(View.GONE);
-                }
+                cityName.setText("");
             }
         });
-*/
+
+        clearFav.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                favList.clear();
+                spinnerArrayAdapter.notifyDataSetChanged();
+            }
+        });
 
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (validate(latitude.getText().toString(), longitude.getText().toString())) {
+                if (validateCoords(latitude.getText().toString(), longitude.getText().toString()) && !simpleSwitch.isChecked()) {
                     Intent intent = new Intent(MainActivity.this, MainFrameActivity.class);
                     intent.putExtra("latitude", Double.parseDouble(String.valueOf(latitude.getText())));
                     intent.putExtra("longitude", Double.parseDouble(String.valueOf(longitude.getText())));
+                    intent.putExtra("cityName", "");
+                    intent.putExtra("switch", simpleSwitch.isChecked());
+                    intent.putExtra("refresh", refresh);
+                    startActivity(intent);
+                } else if (simpleSwitch.isChecked() && !cityName.getText().toString().isEmpty()) {
+                    Intent intent = new Intent(MainActivity.this, MainFrameActivity.class);
+                    intent.putExtra("latitude", ProjectConstants.DMCS_LATITUDE);
+                    intent.putExtra("longitude", ProjectConstants.DMCS_LONGITUDE);
                     intent.putExtra("cityName", String.valueOf(cityName.getText()));
                     intent.putExtra("switch", simpleSwitch.isChecked());
                     intent.putExtra("refresh", refresh);
                     startActivity(intent);
+                } else if (!favList.isEmpty()){
+                    Intent intent = new Intent(MainActivity.this, MainFrameActivity.class);
+                    intent.putExtra("latitude", ProjectConstants.DMCS_LATITUDE);
+                    intent.putExtra("longitude", ProjectConstants.DMCS_LONGITUDE);
+                    intent.putExtra("cityName", favourite.getSelectedItem().toString());
+                    intent.putExtra("switch", true);
+                    intent.putExtra("refresh", refresh);
+                    startActivity(intent);
+                }
+                else{
+                    Toast.makeText(getApplicationContext(), "Nie wybrano żadnej z opcji", Toast.LENGTH_SHORT).show();
                 }
             }
         });
     }
 
-    boolean validate(String lat, String log) {
-        if (lat.matches("")) {
-            latitude.setText("" + ProjectConstants.DMCS_LATITUDE);
-            lat = String.valueOf(ProjectConstants.DMCS_LATITUDE);
-        }
-        if (log.matches("")) {
-            longitude.setText("" + ProjectConstants.DMCS_LONGITUDE);
-            log = String.valueOf(ProjectConstants.DMCS_LONGITUDE);
-        }
+    boolean validateCoords(String lat, String log) {
+        if (lat.isEmpty() || log.isEmpty())
+            return false;
         if (Double.parseDouble(lat) < -90 || Double.parseDouble(lat) > 90) {
             Toast.makeText(getApplicationContext(), "Szerokość geograficzna musi być z zakresu (-90.0 ; 90.0)", Toast.LENGTH_SHORT).show();
             return false;
