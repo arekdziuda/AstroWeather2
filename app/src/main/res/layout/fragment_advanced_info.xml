@@ -51,7 +51,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="20 km/h"
+                android:text="km/h"
                 android:textColor="@android:color/white" />
         </TableRow>
 
@@ -72,7 +72,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="north"
+                android:text="degree"
                 android:textColor="@android:color/white" />
         </TableRow>
 
@@ -94,7 +94,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="70 %"
+                android:text="percent"
                 android:textColor="@android:color/white" />
         </TableRow>
 
@@ -115,7 +115,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="10 km"
+                android:text="kilomenters"
                 android:textColor="@android:color/white" />
         </TableRow>
 
