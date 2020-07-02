@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         final Spinner spinner = findViewById(R.id.refresh);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.times, R.layout.spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        adapter.setDropDownViewResource(R.layout.my_spinner_dropdown);
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(this);
 
@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         final List<String> favList = new ArrayList<>(Arrays.asList(fav));
         final ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(
                 this, R.layout.spinner_item, favList);
-        spinnerArrayAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        spinnerArrayAdapter.setDropDownViewResource(R.layout.my_spinner_dropdown);
         favourite.setAdapter(spinnerArrayAdapter);
 
         addToFav.setOnClickListener(new View.OnClickListener() {

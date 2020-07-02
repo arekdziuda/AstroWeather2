@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/red_300"
+    tools:context=".fragments.BasicInfoFragment">
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:shrinkColumns="0,1"
+        android:stretchColumns="1">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:paddingTop="20dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:textSize="30dp"
+                android:text="Bieżący czas:"
+                android:textColor="@android:color/white" />
+
+            <TextView
+                android:id="@+id/city_current_time_txt_view"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:textSize="30dp"
+                android:layout_weight="1"
+                android:text="2019-04-09 22:57:26 GMT+1"
+                android:textColor="@android:color/white" />
+        </TableRow>
+
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:paddingTop="20dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Sila wiatru"
+                android:textSize="30dp"
+                android:textColor="@android:color/white" />
+
+            <TextView
+                android:id="@+id/city_wind"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:textSize="30dp"
+                android:text="km/h"
+                android:textColor="@android:color/white" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:paddingTop="20dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:textSize="30dp"
+                android:layout_weight="1"
+                android:text="Kierunek wiatru:"
+                android:textColor="@android:color/white" />
+
+            <TextView
+                android:id="@+id/city_wind_direction"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:textSize="30dp"
+                android:text="degree"
+                android:textColor="@android:color/white" />
+        </TableRow>
+
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:paddingTop="20dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:textSize="30dp"
+                android:text="Wilgotnosc:"
+                android:textColor="@android:color/white" />
+
+            <TextView
+                android:id="@+id/city_humidity"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:textSize="30dp"
+                android:text="percent"
+                android:textColor="@android:color/white" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:paddingTop="20dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:textSize="30dp"
+                android:text="Widocznosc:"
+                android:textColor="@android:color/white" />
+
+            <TextView
+                android:id="@+id/city_visability"
+                android:layout_width="0dp"
+                android:textSize="30dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="kilomenters"
+                android:textColor="@android:color/white" />
+        </TableRow>
+
+    </TableLayout>
+</FrameLayout>

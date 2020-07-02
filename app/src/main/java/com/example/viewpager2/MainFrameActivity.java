@@ -112,20 +112,24 @@ public class MainFrameActivity extends AppCompatActivity {
     }
 
     private void initializeLandsacpeLayout(Bundle bundle) {
-        SunFragment sunFragment = new SunFragment();
-        sunFragment.setArguments(bundle);
-
-        MoonFragment moonFragment = new MoonFragment();
-        moonFragment.setArguments(bundle);
-
-        getSupportFragmentManager()
-                .beginTransaction()
-                .add(R.id.fragment_sun, sunFragment)
-                .commit();
-        getSupportFragmentManager()
-                .beginTransaction()
-                .add(R.id.fragment_moon, moonFragment)
-                .commit();
+        viewPager.setAdapter(createCardAdapter());
+        new TabLayoutMediator(tabLayout, viewPager,
+                new TabLayoutMediator.TabConfigurationStrategy() {
+                    @Override
+                    public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
+                        if (position == 0) {
+                            tab.setText("Moon");
+                        } else if (position == 1) {
+                            tab.setText("Sun");
+                        } else if (position == 2) {
+                            tab.setText("Basic");
+                        } else if (position == 3) {
+                            tab.setText("Advanced");
+                        } else if (position == 4) {
+                            tab.setText("Forecast");
+                        }
+                    }
+                }).attach();
     }
 
     private ViewPagerAdapter createCardAdapter() {
@@ -172,7 +176,25 @@ public class MainFrameActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }*/
-        DisplayMetrics metrics = new DisplayMetrics();
+        viewPager.setAdapter(createCardAdapter());
+        new TabLayoutMediator(tabLayout, viewPager,
+                new TabLayoutMediator.TabConfigurationStrategy() {
+                    @Override
+                    public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
+                        if (position == 0) {
+                            tab.setText("Moon");
+                        } else if (position == 1) {
+                            tab.setText("Sun");
+                        } else if (position == 2) {
+                            tab.setText("Basic");
+                        } else if (position == 3) {
+                            tab.setText("Advanced");
+                        } else if (position == 4) {
+                            tab.setText("Forecast");
+                        }
+                    }
+                }).attach();
+/*        DisplayMetrics metrics = new DisplayMetrics();
         this.getWindowManager().getDefaultDisplay().getMetrics(metrics);
         ScreenUtilities screenUtilities = new ScreenUtilities(this);
         int orientation = getResources().getConfiguration().orientation;
@@ -186,7 +208,7 @@ public class MainFrameActivity extends AppCompatActivity {
                 this.screenOrientation = ScreenSizeOrientation.PHONE_PORTRAIT;
                 initializePortraitLayout(doInBackground(Double.parseDouble(String.valueOf(longitude)), Double.parseDouble(String.valueOf(latitude))));
             }
-        }
+        }*/
         startPeriodicTimeUpdate();
         startPeriodicWeatherUpates();
     }

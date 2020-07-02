@@ -13,7 +13,7 @@
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:paddingTop="10dp">
+            android:paddingTop="20dp">
 
             <TextView
                 android:layout_width="0dp"
@@ -21,16 +21,23 @@
                 android:layout_weight="1"
                 android:text="Długość geograficzna:"
                 android:textColor="@android:color/white"
-                android:textSize="25dp" />
+                android:textSize="35dp" />
 
             <EditText
                 android:id="@+id/longitude"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:textSize="30dp"
                 android:hint="(-180.0 ; 180.0)"
                 android:inputType="numberSigned"
                 android:textColor="@android:color/white" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:paddingTop="20dp">
 
             <TextView
                 android:layout_width="0dp"
@@ -38,70 +45,87 @@
                 android:layout_weight="1"
                 android:text="Szerokość geograficzna:"
                 android:textColor="@android:color/white"
-                android:textSize="25dp" />
+                android:textSize="35dp" />
 
             <EditText
                 android:id="@+id/latitude"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:textSize="30dp"
                 android:hint="(-90.0 ; 90.0)"
                 android:inputType="numberSigned"
                 android:textColor="@android:color/white" />
         </TableRow>
 
-
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="20dp"
-            android:paddingTop="10dp">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="0.59"
-                android:gravity="center_vertical"
-                android:text="Nazwa miasta:"
-                android:textColor="@android:color/white"
-                android:textSize="25dp" />
-
-            <EditText
-                android:id="@+id/city_name"
-                android:layout_width="0dp"
-                android:layout_weight="0.5"
-                android:hint=""
-                android:textColor="@android:color/white"
-                android:textSize="20dp" />
+            android:paddingTop="20dp">
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="25dp"
                 android:layout_weight="1"
                 android:text="Szukaj po nazwie miasta"
                 android:textColor="@android:color/white"
-                android:textSize="25dp" />
+                android:textSize="35dp" />
 
             <Switch
                 android:id="@+id/simpleSwitch"
                 android:layout_width="wrap_content"
+                android:layout_marginRight="250dp"
+                android:scaleX="2"
+                android:scaleY="2"
                 android:layout_height="wrap_content"
                 android:gravity="bottom" />
-
         </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:paddingTop="20dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Nazwa miasta:"
+                android:layout_gravity="center_vertical"
+                android:textColor="@android:color/white"
+                android:textSize="35dp" />
+
+            <EditText
+                android:id="@+id/city_name"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:textSize="30dp"
+                android:hint=""
+                android:textColor="@android:color/white" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:paddingTop="20dp">
+
+            <Button
+                android:id="@+id/buttonFav"
+                android:layout_width="0dp"
+                android:textSize="30dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Dodaj miasto do ulubionych" />
+        </TableRow>
+
 
 
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:paddingTop="10dp">
+            android:paddingTop="20dp">
 
-            <Button
-                android:id="@+id/buttonFav"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="Dodaj miasto do ulubionych" />
 
             <Spinner
                 android:id="@+id/favourite"
@@ -111,36 +135,38 @@
                 android:textColor="@android:color/white" />
         </TableRow>
 
-
         <TableRow
             android:layout_width="match_parent"
-            android:layout_height="0dp">
+            android:layout_height="0dp"
+            android:paddingTop="30dp">
 
             <Button
                 android:id="@+id/buttonFavDelete"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="Wyczyść listę ulubionych"
-                android:textColor="@color/red_100" />
+                android:textSize="30dp"
+                android:textColor="@color/red_100"
+                android:text="Wyczyść listę ulubionych" />
+        </TableRow>
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:paddingTop="10dp">
 
             <Button
                 android:id="@+id/button"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:textSize="30dp"
                 android:text="Uruchom" />
-        </TableRow>
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="0dp">
         </TableRow>
-
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:paddingTop="10dp">
+            android:paddingTop="20dp">
 
             <TextView
                 android:layout_width="0dp"
@@ -148,7 +174,15 @@
                 android:layout_weight="1"
                 android:text="Częstotliwość odświeżenia:"
                 android:textColor="@android:color/white"
-                android:textSize="25dp" />
+                android:textSize="35dp" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:paddingTop="20dp">
+
 
             <Spinner
                 android:id="@+id/refresh"
@@ -158,11 +192,10 @@
                 android:textColor="@android:color/white" />
         </TableRow>
 
-
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="20dp"
-            android:paddingTop="10dp">
+            android:paddingTop="20dp">
 
             <TextView
                 android:layout_width="0dp"
@@ -170,12 +203,14 @@
                 android:layout_weight="1"
                 android:text="Celsius/Fahrenheit"
                 android:textColor="@android:color/white"
-                android:textSize="25dp" />
+                android:textSize="35dp" />
 
             <Switch
                 android:id="@+id/simpleSwitchUnit"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_marginRight="250dp"
+                android:scaleX="2"
+                android:scaleY="2"
                 android:gravity="bottom" />
         </TableRow>
 
