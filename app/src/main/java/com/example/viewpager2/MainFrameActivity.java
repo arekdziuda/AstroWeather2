@@ -4,6 +4,8 @@ package com.example.viewpager2;
 import android.content.Context;
 
 import android.content.res.Configuration;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.DisplayMetrics;
@@ -89,49 +91,6 @@ public class MainFrameActivity extends AppCompatActivity {
         }
     }
 
-
-    private void initializePortraitLayout(Bundle bundle) {
-        viewPager.setAdapter(createCardAdapter());
-        new TabLayoutMediator(tabLayout, viewPager,
-                new TabLayoutMediator.TabConfigurationStrategy() {
-                    @Override
-                    public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
-                        if (position == 0) {
-                            tab.setText("Moon");
-                        } else if (position == 1) {
-                            tab.setText("Sun");
-                        } else if (position == 2) {
-                            tab.setText("Basic");
-                        } else if (position == 3) {
-                            tab.setText("Advanced");
-                        } else if (position == 4) {
-                            tab.setText("Forecast");
-                        }
-                    }
-                }).attach();
-    }
-
-    private void initializeLandsacpeLayout(Bundle bundle) {
-        viewPager.setAdapter(createCardAdapter());
-        new TabLayoutMediator(tabLayout, viewPager,
-                new TabLayoutMediator.TabConfigurationStrategy() {
-                    @Override
-                    public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
-                        if (position == 0) {
-                            tab.setText("Moon");
-                        } else if (position == 1) {
-                            tab.setText("Sun");
-                        } else if (position == 2) {
-                            tab.setText("Basic");
-                        } else if (position == 3) {
-                            tab.setText("Advanced");
-                        } else if (position == 4) {
-                            tab.setText("Forecast");
-                        }
-                    }
-                }).attach();
-    }
-
     private ViewPagerAdapter createCardAdapter() {
         ViewPagerAdapter adapter = new ViewPagerAdapter(this);
         adapter.setArguments(doInBackground(Double.parseDouble(String.valueOf(longitude)), Double.parseDouble(String.valueOf(latitude))));
@@ -162,20 +121,15 @@ public class MainFrameActivity extends AppCompatActivity {
         super.onResume();
         try {
             if (searchByName) {
-                System.out.println("City");
+                Log.e("MainActivity", "Searching by name");
                 sendCityNameApiRequest();
             } else {
-                System.out.println("Coords");
+                Log.e("MainActivity", "Searching by coords");
                 sendCoordinatesApiRequest();
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-     /*   try {
-            sendCoordinatesApiRequest();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }*/
         viewPager.setAdapter(createCardAdapter());
         new TabLayoutMediator(tabLayout, viewPager,
                 new TabLayoutMediator.TabConfigurationStrategy() {
@@ -194,21 +148,6 @@ public class MainFrameActivity extends AppCompatActivity {
                         }
                     }
                 }).attach();
-/*        DisplayMetrics metrics = new DisplayMetrics();
-        this.getWindowManager().getDefaultDisplay().getMetrics(metrics);
-        ScreenUtilities screenUtilities = new ScreenUtilities(this);
-        int orientation = getResources().getConfiguration().orientation;
-        if (screenUtilities.getWidth() > 600) {
-            initializeLandsacpeLayout(doInBackground(Double.parseDouble(String.valueOf(longitude)), Double.parseDouble(String.valueOf(latitude))));
-        } else {
-            if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                this.screenOrientation = ScreenSizeOrientation.PHONE_LANDSAPE;
-                initializeLandsacpeLayout(doInBackground(Double.parseDouble(String.valueOf(longitude)), Double.parseDouble(String.valueOf(latitude))));
-            } else {
-                this.screenOrientation = ScreenSizeOrientation.PHONE_PORTRAIT;
-                initializePortraitLayout(doInBackground(Double.parseDouble(String.valueOf(longitude)), Double.parseDouble(String.valueOf(latitude))));
-            }
-        }*/
         startPeriodicTimeUpdate();
         startPeriodicWeatherUpates();
     }
@@ -317,120 +256,102 @@ public class MainFrameActivity extends AppCompatActivity {
 
     public interface SunMoonRefreshableUI {
         void refreshTime(Bundle bundle, Double longitude, Double latitude);
-
         void refreshSunMoonWeather(Double longitude, Double latitude);
     }
 
     public interface ApiRefreshableUI {
         void refreshTime(Bundle bundle) throws IOException, JSONException;
-
         void refreshApiWeather(Context context, JSONObject jsonObject, String name, boolean isFahrenheit) throws IOException, JSONException;
     }
 
 
-    private void sendCoordinatesApiRequest() {
-        RequestManager requestManager = RequestManager.getInstance(this);
-
-
-        YahooWeatherRequest request = new YahooWeatherRequest(Request.Method.GET, null, null, String.valueOf(this.longitude), String.valueOf(this.latitude), isFahrenheit, new Response.Listener() {
-            @Override
-            public void onResponse(Object response) {
-                try {
-                    locationObject = ((JSONObject) response).getJSONObject("location");
-                    cityName = locationObject.getString("city");
-                    MainFrameActivity.this.jsonObject = (JSONObject) response;
-                    for (ApiRefreshableUI ApiSubscriber : apiSubscribersList) {
-                        ApiSubscriber.refreshApiWeather(MainFrameActivity.this, (JSONObject) response, cityName, isFahrenheit);
-                    }
-                    Files update = new Files(MainFrameActivity.this, true, jsonObject);
-                    update.start();
-
-                } catch (JSONException | IOException e) {
-
-                    Toast.makeText(MainFrameActivity.this, e.toString(), Toast.LENGTH_LONG).show();
-
-                }
-               /*     for (ApiRequestObtainable ob : MainActivity.this.apiSubscribers)
-                        ob.refreshUI((JSONObject) response);
-
-                    MainActivity.this.jsonObject = (JSONObject) response;
-                    if (!APPLICATION_RUNNING) {
-                        MainActivity.this.jsonApiTimeToUpdate = DateUtils.addMinutes(new Date(System.currentTimeMillis()), ProjectConstants.MINUTES_TILL_NEXT_API_REQUEST_IN_MINUTES);
-                        SharedPreferencesUtility.writeTimeToUpdateJsonOnStart(MainActivity.this, MainActivity.this.jsonApiTimeToUpdate.toString());
-                    }
-
+    private void sendCoordinatesApiRequest() throws IOException, JSONException {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        if (!(activeNetworkInfo != null && activeNetworkInfo.isConnected())) {
+            Toast.makeText(this, "Network connection not available", Toast.LENGTH_LONG).show();
+            for (ApiRefreshableUI ApiSubscriber : apiSubscribersList) {
+                ApiSubscriber.refreshApiWeather(MainFrameActivity.this, null, cityName, isFahrenheit);
+            }
+        } else {
+            RequestManager requestManager = RequestManager.getInstance(this);
+            YahooWeatherRequest request = new YahooWeatherRequest(Request.Method.GET, null, null, String.valueOf(this.longitude), String.valueOf(this.latitude), isFahrenheit, new Response.Listener() {
+                @Override
+                public void onResponse(Object response) {
                     try {
-                        // serialize the obtained object to the file
-                        FIleSystemUtilities.serializeJsonToTheFile(MainActivity.this, ProjectConstants.SERIALIZED_WEATHER_JSON_FILE_NAME, (JSONObject) response);
-                    } catch(IOException e) {
-                        Toast.makeText(MainActivity.this, e.toString(), Toast.LENGTH_LONG).show();*/
+                        locationObject = ((JSONObject) response).getJSONObject("location");
+                        cityName = locationObject.getString("city");
+                        MainFrameActivity.this.jsonObject = (JSONObject) response;
+                        for (ApiRefreshableUI ApiSubscriber : apiSubscribersList) {
+                            ApiSubscriber.refreshApiWeather(MainFrameActivity.this, (JSONObject) response, cityName, isFahrenheit);
+                    }
+                        Files update = new Files(MainFrameActivity.this, true, jsonObject);
+                        update.start();
 
-                Log.e("MainActivity", "Error while serializing JSONObject");
-                //  }
+                    } catch (JSONException | IOException e) {
 
+                        Toast.makeText(MainFrameActivity.this, e.toString(), Toast.LENGTH_LONG).show();
 
-                Log.e("Response", ((JSONObject) response).toString());
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                // Add error handling here
-                Log.e("API error: ", "#onErrorResponse in MainActivity");
-            }
-        });
-        requestManager.addToRequestQueue(request);
+                    }
+                    Log.e("MainActivity", "Error while serializing JSONObject");
+                    //  }
+                    Log.e("Response", ((JSONObject) response).toString());
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    // Add error handling here
+                    Log.e("API error: ", "#onErrorResponse in MainActivity");
+                }
+            });
+            requestManager.addToRequestQueue(request);
+        }
     }
 
-    private void sendCityNameApiRequest() {
-        RequestManager requestManager = RequestManager.getInstance(this);
+    private void sendCityNameApiRequest() throws IOException, JSONException {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        if (!(activeNetworkInfo != null && activeNetworkInfo.isConnected())) {
+            Toast.makeText(this, "Network connection not available", Toast.LENGTH_LONG).show();
+            for (ApiRefreshableUI ApiSubscriber : apiSubscribersList) {
+                ApiSubscriber.refreshApiWeather(MainFrameActivity.this, null, cityName, isFahrenheit);
+            }
+        } else {
+            RequestManager requestManager = RequestManager.getInstance(this);
 
-        YahooWeatherRequest request = new YahooWeatherRequest(Request.Method.GET, null, null, cityName, isFahrenheit, new Response.Listener() {
-            @Override
-            public void onResponse(Object response) {
-                try {
-                    locationObject = ((JSONObject) response).getJSONObject("location");
-                    cityName = locationObject.getString("city");
-                    MainFrameActivity.this.jsonObject = (JSONObject) response;
-                    for (ApiRefreshableUI ApiSubscriber : apiSubscribersList) {
-                        ApiSubscriber.refreshApiWeather(MainFrameActivity.this, (JSONObject) response, cityName, isFahrenheit);
-                    }
-                    Files update = new Files(MainFrameActivity.this, true, jsonObject);
-                    update.start();
-
-
-                } catch (JSONException | IOException e) {
-                    Toast.makeText(MainFrameActivity.this, e.toString(), Toast.LENGTH_LONG).show();
-
-                }
-               /*     for (ApiRequestObtainable ob : MainActivity.this.apiSubscribers)
-                        ob.refreshUI((JSONObject) response);
-
-                    MainActivity.this.jsonObject = (JSONObject) response;
-                    if (!APPLICATION_RUNNING) {
-                        MainActivity.this.jsonApiTimeToUpdate = DateUtils.addMinutes(new Date(System.currentTimeMillis()), ProjectConstants.MINUTES_TILL_NEXT_API_REQUEST_IN_MINUTES);
-                        SharedPreferencesUtility.writeTimeToUpdateJsonOnStart(MainActivity.this, MainActivity.this.jsonApiTimeToUpdate.toString());
-                    }
-
+            YahooWeatherRequest request = new YahooWeatherRequest(Request.Method.GET, null, null, cityName, isFahrenheit, new Response.Listener() {
+                @Override
+                public void onResponse(Object response) {
                     try {
-                        // serialize the obtained object to the file
-                        FIleSystemUtilities.serializeJsonToTheFile(MainActivity.this, ProjectConstants.SERIALIZED_WEATHER_JSON_FILE_NAME, (JSONObject) response);
-                    } catch(IOException e) {
-                        Toast.makeText(MainActivity.this, e.toString(), Toast.LENGTH_LONG).show();*/
+                        locationObject = ((JSONObject) response).getJSONObject("location");
+                        cityName = locationObject.getString("city");
+                        MainFrameActivity.this.jsonObject = (JSONObject) response;
+                        for (ApiRefreshableUI ApiSubscriber : apiSubscribersList) {
+                            ApiSubscriber.refreshApiWeather(MainFrameActivity.this, (JSONObject) response, cityName, isFahrenheit);
+                        }
+                        Files update = new Files(MainFrameActivity.this, true, jsonObject);
+                        update.start();
 
-                Log.e("MainActivity", "Error while serializing JSONObject");
-                //  }
 
+                    } catch (JSONException | IOException e) {
+                        Toast.makeText(MainFrameActivity.this, e.toString(), Toast.LENGTH_LONG).show();
 
-                Log.e("Response", ((JSONObject) response).toString());
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                // Add error handling here
-                Log.e("API error: ", "#onErrorResponse in MainActivity");
-            }
-        });
-        requestManager.addToRequestQueue(request);
+                    }
 
+                    Log.e("MainActivity", "Error while serializing JSONObject");
+                    //  }
+                    Log.e("Response", ((JSONObject) response).toString());
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    // Add error handling here
+                    Log.e("API error: ", "#onErrorResponse in MainActivity");
+                }
+            });
+            requestManager.addToRequestQueue(request);
+        }
     }
 }

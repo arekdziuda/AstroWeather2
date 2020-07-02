@@ -114,7 +114,6 @@ public class AdvancedInfoFragment extends Fragment implements MainFrameActivity.
         refreshUI(context, jsonObject, nameOfCity, isFahrenheit);
     }
 
-    //  public void refreshApiWeather(JSONObject jsonObject) throws IOException, JSONException {
     public void refreshUI(Context context, JSONObject jsonObjectFromWeb, String nameOfCity, boolean isFahrenheit) throws IOException, JSONException {
         File path = context.getFilesDir();
         File file = new File(path, nameOfCity + ".json");
@@ -133,8 +132,10 @@ public class AdvancedInfoFragment extends Fragment implements MainFrameActivity.
             String responce = stringBuilder.toString();
             jsonObject  = new JSONObject(responce);
         }
-        else
+        else if(jsonObjectFromWeb!=null)
             jsonObject = jsonObjectFromWeb;
+        else
+            return;
 
 
         JSONObject current_observationObject = jsonObject.getJSONObject("current_observation");

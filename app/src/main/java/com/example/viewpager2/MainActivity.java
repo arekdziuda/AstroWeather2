@@ -85,13 +85,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println(simpleSwitchUnit.isChecked());
-                if (validateCoords(latitude.getText().toString(), longitude.getText().toString()) && !simpleSwitch.isChecked()) {
+                if (!favList.isEmpty()) {
                     Intent intent = new Intent(MainActivity.this, MainFrameActivity.class);
-                    intent.putExtra("latitude", Double.parseDouble(String.valueOf(latitude.getText())));
-                    intent.putExtra("longitude", Double.parseDouble(String.valueOf(longitude.getText())));
-                    intent.putExtra("cityName", "");
-                    intent.putExtra("switchName", simpleSwitch.isChecked());
+                    intent.putExtra("latitude", ProjectConstants.DMCS_LATITUDE);
+                    intent.putExtra("longitude", ProjectConstants.DMCS_LONGITUDE);
+                    intent.putExtra("cityName", favourite.getSelectedItem().toString());
+                    intent.putExtra("switchName", true);
                     intent.putExtra("switchUnit", simpleSwitchUnit.isChecked());
                     intent.putExtra("refresh", refresh);
                     startActivity(intent);
@@ -104,18 +103,20 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                     intent.putExtra("switchUnit", simpleSwitchUnit.isChecked());
                     intent.putExtra("refresh", refresh);
                     startActivity(intent);
-                } else if (!favList.isEmpty()){
+                } else if (validateCoords(latitude.getText().toString(), longitude.getText().toString()) && !simpleSwitch.isChecked()) {
                     Intent intent = new Intent(MainActivity.this, MainFrameActivity.class);
-                    intent.putExtra("latitude", ProjectConstants.DMCS_LATITUDE);
-                    intent.putExtra("longitude", ProjectConstants.DMCS_LONGITUDE);
-                    intent.putExtra("cityName", favourite.getSelectedItem().toString());
-                    intent.putExtra("switchName", true);
+                    intent.putExtra("latitude", Double.parseDouble(String.valueOf(latitude.getText())));
+                    intent.putExtra("longitude", Double.parseDouble(String.valueOf(longitude.getText())));
+                    intent.putExtra("cityName", "");
+                    System.out.println("dupa");
+                    intent.putExtra("switchName", simpleSwitch.isChecked());
                     intent.putExtra("switchUnit", simpleSwitchUnit.isChecked());
                     intent.putExtra("refresh", refresh);
                     startActivity(intent);
-                }
-                else{
-                    Toast.makeText(getApplicationContext(), "Nie wybrano żadnej z opcji", Toast.LENGTH_SHORT).show();
+                } else {
+                    if(latitude.getText().toString().isEmpty() || longitude.getText().toString().isEmpty()){
+                        Toast.makeText(getApplicationContext(), "Nie wybrano żadnej z opcji", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });

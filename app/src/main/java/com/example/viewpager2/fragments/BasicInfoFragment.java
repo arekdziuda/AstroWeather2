@@ -108,8 +108,6 @@ public class BasicInfoFragment extends Fragment implements MainFrameActivity.Api
     public void refreshTime(Bundle bundle) {
         // if (bundle != null)
         currentTimeTextView.setText(bundle.getString("DATE"));
-
-
     }
 
     @Override
@@ -117,7 +115,6 @@ public class BasicInfoFragment extends Fragment implements MainFrameActivity.Api
         refreshUI(context, jsonObject, nameOfCity, isFahrenheit);
     }
 
-    //  public void refreshApiWeather(JSONObject jsonObject) throws IOException, JSONException {
     public void refreshUI(Context context, JSONObject jsonObjectFromWeb, String nameOfCity, boolean isFahrenheit) throws IOException, JSONException {
         File path = context.getFilesDir();
         File file = new File(path, nameOfCity + ".json");
@@ -136,8 +133,11 @@ public class BasicInfoFragment extends Fragment implements MainFrameActivity.Api
             String responce = stringBuilder.toString();
             jsonObject  = new JSONObject(responce);
         }
-        else
+        else if(jsonObjectFromWeb!=null)
             jsonObject = jsonObjectFromWeb;
+        else{
+            return;
+        }
 
         JSONObject locationObject = jsonObject.getJSONObject("location");
         city_longitude.setText(locationObject.getString("long"));
