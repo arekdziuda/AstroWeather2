@@ -1,5 +1,6 @@
 package com.example.viewpager2.fragments;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -20,7 +21,13 @@ import com.example.viewpager2.weather.Files;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 
 public class BasicInfoFragment extends Fragment implements MainFrameActivity.ApiRefreshableUI {
@@ -31,6 +38,7 @@ public class BasicInfoFragment extends Fragment implements MainFrameActivity.Api
     private TextView city_latitude;
     private TextView city_temperature;
     private TextView city_pressure;
+    private TextView city_weather_describe;
     private TextView city_name;
     private ImageView imageView;
 
@@ -54,6 +62,8 @@ public class BasicInfoFragment extends Fragment implements MainFrameActivity.Api
         if (getArguments() != null) {
             counter = getArguments().getInt(ARG_COUNT);
         }
+
+
     }
 
     @Override
@@ -61,6 +71,7 @@ public class BasicInfoFragment extends Fragment implements MainFrameActivity.Api
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_basic_info, container, false);
+
     }
 
     @Override
@@ -72,70 +83,168 @@ public class BasicInfoFragment extends Fragment implements MainFrameActivity.Api
         city_latitude = getView().findViewById(R.id.city_latitude);
         city_longitude = getView().findViewById(R.id.city_longitude);
         city_name = getView().findViewById(R.id.city_name);
+        city_weather_describe = getView().findViewById(R.id.city_weather_describe);
         imageView = getView().findViewById(R.id.imageView);
 
-        //currentTimeTextView.setText(getArguments().getString("DATE", "NO DATA"));
-       // city_longitude.setText(getArguments().getString("longitude"));
-      //  city_latitude.setText(getArguments().getString("latitude"));
+        if (getActivity() instanceof MainFrameActivity) {
+            try {
+                refreshApiWeather(((MainFrameActivity) getActivity()).getContextOfMainFrame(), ((MainFrameActivity) getActivity()).getJsonObject(), ((MainFrameActivity) getActivity()).getNameOfCity());
+            } catch (IOException | JSONException e) {
+                e.printStackTrace();
+            }
+            ((MainFrameActivity) getActivity()).addSubscriberApiListener(this);
+        }
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
 
-        if (getActivity() instanceof MainFrameActivity) {
-            ((MainFrameActivity) getActivity()).addSubscriberApiListener(this);
-        }
     }
 
     @Override
     public void refreshTime(Bundle bundle) {
-       // if (bundle != null)
-            currentTimeTextView.setText(bundle.getString("DATE"));
+        // if (bundle != null)
+        currentTimeTextView.setText(bundle.getString("DATE"));
 
 
     }
 
     @Override
-    public void refreshApiWeather(Context context, JSONObject jsonObject) throws IOException, JSONException {
-
-            Files update = new Files((MainFrameActivity) context, true, jsonObject);
-            update.start();
-            //  city_name.setText(bundle.getString("LOCATION"));
-         //   File path = context.getFilesDir();
-
-        //    File file = new File(path, "Lodz.json");
-         //   int length = (int) file.length();
-
-         /*   byte[] bytes = new byte[length];
-            FileInputStream in = new FileInputStream(file);
-            in.read(bytes);
-        JSONParser jsonParser = new JSONParser();
-        JSONObject jsonObject = (JSONObject)jsonParser.parse(
-                new InputStreamReader(inputStream, "UTF-8"));
-            JSONObject object = new JSONObject(Arrays.toString(bytes));
-            in.close();*/
-
-            JSONObject locationObject = jsonObject.getJSONObject("location");
-            city_longitude.setText(locationObject.getString("long"));
-            city_latitude.setText(locationObject.getString("lat"));
-            city_name.setText(locationObject.getString("city"));
-            JSONObject current_observationObject = jsonObject.getJSONObject("current_observation");
-            JSONObject atmosphereObject = current_observationObject.getJSONObject("atmosphere");
-            city_pressure.setText(atmosphereObject.getString("pressure") + " hPa");
-            JSONObject conditionObject = current_observationObject.getJSONObject("condition");
-            city_temperature.setText(conditionObject.getString("temperature"));
-            imageView.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.clouds));
-
+    public void refreshApiWeather(Context context, JSONObject jsonObject, String nameOfCity) throws IOException, JSONException {
+        refreshUI(context, jsonObject, nameOfCity);
     }
 
-    public interface OnFragmentInteractionListener {
-        void onFragmentInteraction(Bundle bundle);
+    //  public void refreshApiWeather(JSONObject jsonObject) throws IOException, JSONException {
+    public void refreshUI(Context context, JSONObject jsonObjectFromWeb, String nameOfCity) throws IOException, JSONException {
+        File path = context.getFilesDir();
+        File file = new File(path, nameOfCity + ".json");
+
+        JSONObject jsonObject;
+        if(file.exists()){
+            FileReader fileReader = new FileReader(file);
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
+            StringBuilder stringBuilder = new StringBuilder();
+            String line = bufferedReader.readLine();
+            while (line != null){
+                stringBuilder.append(line).append("\n");
+                line = bufferedReader.readLine();
+            }
+            bufferedReader.close();
+            String responce = stringBuilder.toString();
+            jsonObject  = new JSONObject(responce);
+        }
+        else
+            jsonObject = jsonObjectFromWeb;
+
+        JSONObject locationObject = jsonObject.getJSONObject("location");
+        city_longitude.setText(locationObject.getString("long"));
+        city_latitude.setText(locationObject.getString("lat"));
+        city_name.setText(locationObject.getString("city"));
+        JSONObject current_observationObject = jsonObject.getJSONObject("current_observation");
+        JSONObject atmosphereObject = current_observationObject.getJSONObject("atmosphere");
+        city_pressure.setText(atmosphereObject.getString("pressure") + " hPa");
+        JSONObject conditionObject = current_observationObject.getJSONObject("condition");
+        city_temperature.setText(conditionObject.getString("temperature") + " °C");
+        city_weather_describe.setText(conditionObject.getString("text"));
+        setImage(Integer.valueOf(conditionObject.getString("code")), (ImageView) getView().findViewById(R.id.imageView));
+
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
+    }
+
+
+    void setImage(Integer code, ImageView imageView) {
+        switch (code) {
+            default:
+                imageView.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.error));
+                break;
+            case 0:
+            case 1:
+            case 2:
+                imageView.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.windy));
+                break;
+            case 3:
+            case 4:
+            case 37:
+            case 38:
+                imageView.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.storm));
+                break;
+            case 5:
+            case 6:
+            case 7:
+            case 18:
+            case 35:
+            case 42:
+            case 43:
+                imageView.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.snow));
+                break;
+            case 8:
+            case 9:
+                imageView.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.drop));
+                break;
+            case 10:
+            case 11:
+            case 12:
+            case 39:
+            case 40:
+            case 45:
+                imageView.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.rain));
+                break;
+            case 13:
+            case 14:
+            case 15:
+            case 16:
+            case 41:
+            case 46:
+                imageView.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.snowflake));
+                break;
+            case 19:
+            case 20:
+            case 21:
+            case 22:
+            case 23:
+                imageView.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.fog));
+                break;
+            case 24:
+                imageView.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.wind));
+                break;
+            case 25:
+                imageView.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.cold));
+                break;
+            case 26:
+                imageView.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.clouds));
+                break;
+            case 27:
+                imageView.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.moon));
+                break;
+            case 29:
+                imageView.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.cloud3));
+                break;
+            case 28:
+                imageView.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.cloudy2));
+                break;
+            case 30:
+                imageView.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.cloudy));
+                break;
+            case 31:
+            case 33:
+                imageView.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.night));
+                break;
+            case 32:
+            case 34:
+                imageView.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.sunny));
+                break;
+            case 36:
+                imageView.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.hot));
+                break;
+            case 47:
+                imageView.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.rain_bolt));
+                break;
+        }
     }
 
 

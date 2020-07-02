@@ -2,6 +2,7 @@ package com.example.viewpager2.weather;
 
 import android.app.Activity;
 import android.os.Build;
+import android.util.Log;
 
 import androidx.annotation.RequiresApi;
 
@@ -22,6 +23,8 @@ public class Files extends Thread {
     Boolean isCelsius;
     JSONObject object;
 
+    long TEN_MINUTES = 600000;
+
     public Files(MainFrameActivity activity, Boolean isCelsius, JSONObject object) {
         this.activity = activity;
         this.isCelsius = isCelsius;
@@ -30,7 +33,7 @@ public class Files extends Thread {
 
 
     public String updateFile(String filename, Activity activity) throws Exception {
-     //   JSONObject object = new JSONObject(json);
+        //   JSONObject object = new JSONObject(json);
         if (isCelsius)
             object.put("unit", "c");
         else
@@ -57,14 +60,21 @@ public class Files extends Thread {
             JSONObject locationObject = object.getJSONObject("location");
             filename = locationObject.get("city").toString();
             File f = new File(path, filename + ".json");
-            System.out.println(activity.getFilesDir());
-            FileOutputStream stream = new FileOutputStream(f);
-            stream.write(object.toString().getBytes());
-            stream.close();
+            if (System.currentTimeMillis() - f.lastModified() > TEN_MINUTES) {
+                if (!f.exists())
+                    Log.e("SaveToFile", "File not exist, created the new one");
+                else
+                    Log.e("SaveToFile", "Update is necessary (file was updated more than 10min ago)");
+                FileOutputStream stream = new FileOutputStream(f);
+                stream.write(object.toString().getBytes());
+                stream.close();
+
+            } else {
+                Log.e("SaveToFile", "Update is not necessary (file was updated less than 10min ago)");
+            }
         } catch (JSONException | IOException e) {
             e.printStackTrace();
         }
-        System.out.println("ZAPISANE");
      /*   String[] pathnames = f.list();
         int how_many_downloaded = 0;
         for (String pathname : pathnames) {
@@ -98,8 +108,7 @@ public class Files extends Thread {
         }
         if (how_many_downloaded > 0)
             activity.shouldRefreshFragments = true;*/
-            }
-
+    }
 
 
 }

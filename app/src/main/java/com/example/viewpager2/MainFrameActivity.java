@@ -21,6 +21,7 @@ import com.astrocalculator.AstroCalculator;
 import com.astrocalculator.AstroDateTime;
 import com.example.viewpager2.fragments.MoonFragment;
 import com.example.viewpager2.fragments.SunFragment;
+import com.example.viewpager2.weather.Files;
 import com.example.viewpager2.weather.RequestManager;
 import com.example.viewpager2.weather.YahooWeatherRequest;
 import com.google.android.material.tabs.TabLayout;
@@ -52,6 +53,7 @@ public class MainFrameActivity extends AppCompatActivity {
     private ScreenSizeOrientation screenOrientation = ScreenSizeOrientation.PHONE_PORTRAIT;
 
     private JSONObject locationObject;
+    private JSONObject jsonObject;
     private String DEFAULT_LOCATION = "Lodz";
     private String cityName;
     boolean searchByName;
@@ -148,10 +150,21 @@ public class MainFrameActivity extends AppCompatActivity {
     public void onResume() {
         super.onResume();
         try {
-            sendCoordinatesApiRequest();
+            if (searchByName) {
+                System.out.println("City");
+                sendCityNameApiRequest();
+            } else {
+                System.out.println("Coords");
+                sendCoordinatesApiRequest();
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
+     /*   try {
+            sendCoordinatesApiRequest();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }*/
         DisplayMetrics metrics = new DisplayMetrics();
         this.getWindowManager().getDefaultDisplay().getMetrics(metrics);
         ScreenUtilities screenUtilities = new ScreenUtilities(this);
@@ -178,22 +191,25 @@ public class MainFrameActivity extends AppCompatActivity {
         handlerTwo.removeCallbacks(this.runnableTwo);
     }
 
+    public JSONObject getJsonObject() {
+        return jsonObject;
+    }
+
+    public String getNameOfCity() {
+        return cityName;
+    }
+
+    public Context getContextOfMainFrame() {
+        return getApplicationContext();
+    }
+
+
+
     private void startPeriodicTimeUpdate() {
         this.handler = new Handler();
         this.runnable = new Runnable() {
             @Override
             public void run() {
-                try {
-                    if(searchByName){
-                        System.out.println("City");
-                        sendCityNameApiRequest();
-                    } else{
-                        System.out.println("Coords");
-                        sendCoordinatesApiRequest();
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
                 Date currentTime = Calendar.getInstance().getTime();
                 for (SunMoonRefreshableUI subscriber : subscribersList) {
                     Bundle bundle = new Bundle();
@@ -275,7 +291,7 @@ public class MainFrameActivity extends AppCompatActivity {
 
     public interface ApiRefreshableUI {
         void refreshTime(Bundle bundle) throws IOException, JSONException;
-        void refreshApiWeather(Context context, JSONObject jsonObject) throws IOException, JSONException;
+        void refreshApiWeather(Context context, JSONObject jsonObject, String name) throws IOException, JSONException;
     }
 
 
@@ -288,10 +304,14 @@ public class MainFrameActivity extends AppCompatActivity {
                 public void onResponse(Object response) {
                     try {
                         locationObject = ((JSONObject) response).getJSONObject("location");
-                        MainFrameActivity.this.cityName = locationObject.getString("city");
+                        cityName = locationObject.getString("city");
+                        MainFrameActivity.this.jsonObject = (JSONObject) response;
                         for (ApiRefreshableUI ApiSubscriber : apiSubscribersList) {
-                            ApiSubscriber.refreshApiWeather(MainFrameActivity.this, (JSONObject) response);
+                            ApiSubscriber.refreshApiWeather(MainFrameActivity.this, (JSONObject) response, cityName);
                         }
+                        Files update = new Files(MainFrameActivity.this, true, jsonObject);
+                        update.start();
+
                     } catch(JSONException | IOException e) {
 
                         Toast.makeText(MainFrameActivity.this, e.toString(), Toast.LENGTH_LONG).show();
@@ -336,10 +356,15 @@ public class MainFrameActivity extends AppCompatActivity {
             public void onResponse(Object response) {
                 try {
                     locationObject = ((JSONObject) response).getJSONObject("location");
-                    MainFrameActivity.this.cityName = locationObject.getString("city");
+                    cityName = locationObject.getString("city");
+                    MainFrameActivity.this.jsonObject = (JSONObject) response;
                     for (ApiRefreshableUI ApiSubscriber : apiSubscribersList) {
-                        ApiSubscriber.refreshApiWeather(MainFrameActivity.this, (JSONObject) response);
+                        ApiSubscriber.refreshApiWeather(MainFrameActivity.this, (JSONObject) response, cityName);
                     }
+                    Files update = new Files(MainFrameActivity.this, true, jsonObject);
+                    update.start();
+
+
                 } catch(JSONException | IOException e) {
                     Toast.makeText(MainFrameActivity.this, e.toString(), Toast.LENGTH_LONG).show();
 
