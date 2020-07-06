@@ -117,25 +117,28 @@ public class BasicInfoFragment extends Fragment implements MainFrameActivity.Api
 
     public void refreshUI(Context context, JSONObject jsonObjectFromWeb, String nameOfCity, boolean isFahrenheit) throws IOException, JSONException {
         File path = context.getFilesDir();
-        File file = new File(path, nameOfCity + ".json");
+        File file;
+        if (isFahrenheit)
+            file = new File(path, nameOfCity + "_f.json");
+        else
+            file = new File(path, nameOfCity + "_c.json");
 
         JSONObject jsonObject;
-        if(file.exists()){
+        if (file.exists()) {
             FileReader fileReader = new FileReader(file);
             BufferedReader bufferedReader = new BufferedReader(fileReader);
             StringBuilder stringBuilder = new StringBuilder();
             String line = bufferedReader.readLine();
-            while (line != null){
+            while (line != null) {
                 stringBuilder.append(line).append("\n");
                 line = bufferedReader.readLine();
             }
             bufferedReader.close();
             String responce = stringBuilder.toString();
-            jsonObject  = new JSONObject(responce);
-        }
-        else if(jsonObjectFromWeb!=null)
+            jsonObject = new JSONObject(responce);
+        } else if (jsonObjectFromWeb != null)
             jsonObject = jsonObjectFromWeb;
-        else{
+        else {
             return;
         }
 
@@ -153,11 +156,11 @@ public class BasicInfoFragment extends Fragment implements MainFrameActivity.Api
 
     }
 
-    private String unitTemperature(boolean isFahrenheit){
+    private String unitTemperature(boolean isFahrenheit) {
         return isFahrenheit ? ProjectConstants.fahrenheit : ProjectConstants.celsius;
     }
 
-    private String unitPressure(boolean isFahrenheit){
+    private String unitPressure(boolean isFahrenheit) {
         return isFahrenheit ? ProjectConstants.HG : ProjectConstants.HPA;
     }
 

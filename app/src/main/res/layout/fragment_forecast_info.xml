@@ -30,7 +30,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="2019-04-09 22:57:26 GMT+1"
+                android:text="notFound"
                 android:textColor="@android:color/white" />
         </TableRow>
 
@@ -45,7 +45,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="dayOfWeek"
+                android:text="notFound"
                 android:textColor="@android:color/white" />
 
             <TextView
@@ -53,7 +53,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="temperature"
+                android:text="notFound"
                 android:layout_marginRight="20dp"
                 android:textColor="@android:color/white" />
 
@@ -76,7 +76,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="dayOfWeek"
+                android:text="notFound"
                 android:textColor="@android:color/white" />
 
             <TextView
@@ -85,7 +85,7 @@
                 android:layout_marginRight="20dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="temperature"
+                android:text="notFound"
                 android:textColor="@android:color/white" />
 
             <ImageView
@@ -106,7 +106,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="dayOfWeek"
+                android:text="notFound"
                 android:textColor="@android:color/white" />
 
             <TextView
@@ -115,7 +115,7 @@
                 android:layout_weight="1"
                 android:layout_marginRight="20dp"
                 android:gravity="center"
-                android:text="temperature"
+                android:text="notFound"
                 android:textColor="@android:color/white" />
 
             <ImageView
@@ -136,7 +136,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="dayOfWeek"
+                android:text="notFound"
                 android:textColor="@android:color/white" />
 
             <TextView
@@ -145,7 +145,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:layout_marginRight="20dp"
-                android:text="temperature"
+                android:text="notFound"
                 android:textColor="@android:color/white" />
 
             <ImageView
@@ -166,7 +166,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="dayOfWeek"
+                android:text="notFound"
                 android:textColor="@android:color/white" />
 
             <TextView
@@ -175,7 +175,7 @@
                 android:layout_weight="1"
                 android:layout_marginRight="20dp"
                 android:gravity="center"
-                android:text="temperature"
+                android:text="notFound"
                 android:textColor="@android:color/white" />
 
             <ImageView

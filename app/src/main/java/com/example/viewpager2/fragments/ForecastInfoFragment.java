@@ -135,7 +135,11 @@ public class ForecastInfoFragment extends Fragment implements MainFrameActivity.
 
     public void refreshUI(Context context, JSONObject jsonObjectFromWeb, String nameOfCity, boolean isFahrenheit) throws IOException, JSONException {
         File path = context.getFilesDir();
-        File file = new File(path, nameOfCity + ".json");
+        File file;
+        if (isFahrenheit)
+            file = new File(path, nameOfCity + "_f.json");
+        else
+            file = new File(path, nameOfCity + "_c.json");
 
         JSONObject jsonObject;
         if(file.exists()){

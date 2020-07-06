@@ -51,7 +51,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="20:00"
+                android:text="notFound"
                 android:textColor="@android:color/white" />
         </TableRow>
 
@@ -72,7 +72,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="5:50"
+                android:text="notFound"
                 android:textColor="@android:color/white" />
         </TableRow>
 
@@ -93,7 +93,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="20:00"
+                android:text="notFound"
                 android:textColor="@android:color/white" />
         </TableRow>
 
@@ -114,7 +114,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="20:00"
+                android:text="notFound"
                 android:textColor="@android:color/white" />
         </TableRow>
 
@@ -135,7 +135,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="5:50"
+                android:text="notFound"
                 android:textColor="@android:color/white" />
         </TableRow>
 
@@ -156,7 +156,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="20:00"
+                android:text="notFound"
                 android:textColor="@android:color/white" />
         </TableRow>
 

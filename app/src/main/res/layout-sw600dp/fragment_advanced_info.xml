@@ -31,7 +31,7 @@
                 android:layout_height="match_parent"
                 android:textSize="30dp"
                 android:layout_weight="1"
-                android:text="2019-04-09 22:57:26 GMT+1"
+                android:text="notFound"
                 android:textColor="@android:color/white" />
         </TableRow>
 
@@ -55,7 +55,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:textSize="30dp"
-                android:text="km/h"
+                android:text="notFound"
                 android:textColor="@android:color/white" />
         </TableRow>
 
@@ -78,7 +78,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:textSize="30dp"
-                android:text="degree"
+                android:text="notFound"
                 android:textColor="@android:color/white" />
         </TableRow>
 
@@ -102,7 +102,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:textSize="30dp"
-                android:text="percent"
+                android:text="notFound"
                 android:textColor="@android:color/white" />
         </TableRow>
 
@@ -125,7 +125,7 @@
                 android:textSize="30dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="kilomenters"
+                android:text="notFound"
                 android:textColor="@android:color/white" />
         </TableRow>
 

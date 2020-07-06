@@ -2,6 +2,9 @@ package com.example.viewpager2;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.InputType;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -41,6 +44,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         favourite = findViewById(R.id.favourite);
         addToFav = findViewById(R.id.buttonFav);
         clearFav = findViewById(R.id.buttonFavDelete);
+
+        latitude.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+        longitude.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
 
         final Spinner spinner = findViewById(R.id.refresh);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
@@ -87,8 +93,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             public void onClick(View v) {
                 if (!favList.isEmpty()) {
                     Intent intent = new Intent(MainActivity.this, MainFrameActivity.class);
-                    intent.putExtra("latitude", ProjectConstants.DMCS_LATITUDE);
-                    intent.putExtra("longitude", ProjectConstants.DMCS_LONGITUDE);
+                    intent.putExtra("latitude", "");
+                    intent.putExtra("longitude", "");
                     intent.putExtra("cityName", favourite.getSelectedItem().toString());
                     intent.putExtra("switchName", true);
                     intent.putExtra("switchUnit", simpleSwitchUnit.isChecked());
@@ -96,8 +102,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                     startActivity(intent);
                 } else if (simpleSwitch.isChecked() && !cityName.getText().toString().isEmpty()) {
                     Intent intent = new Intent(MainActivity.this, MainFrameActivity.class);
-                    intent.putExtra("latitude", ProjectConstants.DMCS_LATITUDE);
-                    intent.putExtra("longitude", ProjectConstants.DMCS_LONGITUDE);
+                    intent.putExtra("latitude", "");
+                    intent.putExtra("longitude", "");
                     intent.putExtra("cityName", String.valueOf(cityName.getText()));
                     intent.putExtra("switchName", simpleSwitch.isChecked());
                     intent.putExtra("switchUnit", simpleSwitchUnit.isChecked());
@@ -108,15 +114,15 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                     intent.putExtra("latitude", Double.parseDouble(String.valueOf(latitude.getText())));
                     intent.putExtra("longitude", Double.parseDouble(String.valueOf(longitude.getText())));
                     intent.putExtra("cityName", "");
-                    System.out.println("dupa");
                     intent.putExtra("switchName", simpleSwitch.isChecked());
                     intent.putExtra("switchUnit", simpleSwitchUnit.isChecked());
                     intent.putExtra("refresh", refresh);
                     startActivity(intent);
                 } else {
-                    if(latitude.getText().toString().isEmpty() || longitude.getText().toString().isEmpty()){
+                    if (latitude.getText().toString().isEmpty() || longitude.getText().toString().isEmpty()) {
                         Toast.makeText(getApplicationContext(), "Nie wybrano żadnej z opcji", Toast.LENGTH_SHORT).show();
                     }
+                    Toast.makeText(getApplicationContext(), "Podaj nazwę miasta", Toast.LENGTH_SHORT).show();
                 }
             }
         });

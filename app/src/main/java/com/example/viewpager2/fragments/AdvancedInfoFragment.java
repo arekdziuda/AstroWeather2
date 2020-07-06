@@ -42,7 +42,6 @@ public class AdvancedInfoFragment extends Fragment implements MainFrameActivity.
     private TextView city_visability;
 
 
-
     public AdvancedInfoFragment() {
         // Required empty public constructor
     }
@@ -116,23 +115,26 @@ public class AdvancedInfoFragment extends Fragment implements MainFrameActivity.
 
     public void refreshUI(Context context, JSONObject jsonObjectFromWeb, String nameOfCity, boolean isFahrenheit) throws IOException, JSONException {
         File path = context.getFilesDir();
-        File file = new File(path, nameOfCity + ".json");
+        File file;
+        if (isFahrenheit)
+            file = new File(path, nameOfCity + "_f.json");
+        else
+            file = new File(path, nameOfCity + "_c.json");
 
         JSONObject jsonObject;
-        if(file.exists()){
+        if (file.exists()) {
             FileReader fileReader = new FileReader(file);
             BufferedReader bufferedReader = new BufferedReader(fileReader);
             StringBuilder stringBuilder = new StringBuilder();
             String line = bufferedReader.readLine();
-            while (line != null){
+            while (line != null) {
                 stringBuilder.append(line).append("\n");
                 line = bufferedReader.readLine();
             }
             bufferedReader.close();
             String responce = stringBuilder.toString();
-            jsonObject  = new JSONObject(responce);
-        }
-        else if(jsonObjectFromWeb!=null)
+            jsonObject = new JSONObject(responce);
+        } else if (jsonObjectFromWeb != null)
             jsonObject = jsonObjectFromWeb;
         else
             return;
@@ -147,11 +149,11 @@ public class AdvancedInfoFragment extends Fragment implements MainFrameActivity.
         city_visability.setText(atmosphereObject.getString("visibility") + unitDistance(isFahrenheit));
     }
 
-    private String unitSpeed(boolean isFahrenheit){
+    private String unitSpeed(boolean isFahrenheit) {
         return isFahrenheit ? ProjectConstants.MILE_PER_HOUR : ProjectConstants.KILOMETER_PER_HOUR;
     }
 
-    private String unitDistance(boolean isFahrenheit){
+    private String unitDistance(boolean isFahrenheit) {
         return isFahrenheit ? ProjectConstants.MILE : ProjectConstants.KILOMETER;
     }
 
@@ -159,7 +161,6 @@ public class AdvancedInfoFragment extends Fragment implements MainFrameActivity.
     public void onDetach() {
         super.onDetach();
     }
-
 
 
 }

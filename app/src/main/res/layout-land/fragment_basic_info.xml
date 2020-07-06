@@ -30,7 +30,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.5"
-                android:text="2019-04-09 22:57:26 GMT+1"
+                android:text="notFound"
                 android:textColor="@android:color/white" />
         </TableRow>
 
@@ -52,7 +52,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="20"
+                android:text="notFound"
                 android:textColor="@android:color/white" />
         </TableRow>
 
@@ -73,7 +73,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="85"
+                android:text="notFound"
                 android:textColor="@android:color/white" />
         </TableRow>
 
@@ -95,7 +95,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="30"
+                android:text="notFound"
                 android:textColor="@android:color/white" />
         </TableRow>
 
@@ -116,7 +116,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="996 hPa"
+                android:text="notFound"
                 android:textColor="@android:color/white" />
         </TableRow>
         <TableRow
@@ -136,7 +136,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="Sunny"
+                android:text="notFound"
                 android:textColor="@android:color/white" />
         </TableRow>
 
@@ -160,6 +160,6 @@
         android:layout_gravity="center|top"
         android:layout_marginLeft="200dp"
         android:layout_weight="1"
-        android:text="New York"
+        android:text="notFound"
         android:textColor="@android:color/white" />
 </FrameLayout>

@@ -13,7 +13,7 @@
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:paddingTop="10dp">
+            android:paddingTop="5dp">
 
             <TextView
                 android:layout_width="0dp"
@@ -36,7 +36,7 @@
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:paddingTop="10dp">
+            android:paddingTop="5dp">
 
             <TextView
                 android:layout_width="0dp"
@@ -51,15 +51,15 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:hint="(-90.0 ; 90.0)"
                 android:inputType="numberSigned"
+                android:hint="(-90.0 ; 90.0)"
                 android:textColor="@android:color/white" />
         </TableRow>
 
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="20dp"
-            android:paddingTop="10dp">
+            android:paddingTop="5dp">
 
             <TextView
                 android:layout_width="0dp"
@@ -79,7 +79,7 @@
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:paddingTop="10dp">
+            android:paddingTop="5dp">
 
             <TextView
                 android:layout_width="0dp"
@@ -101,7 +101,7 @@
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:paddingTop="10dp">
+            android:paddingTop="5dp">
 
             <Button
                 android:id="@+id/buttonFav"
@@ -116,7 +116,7 @@
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:paddingTop="10dp">
+            android:paddingTop="5dp">
 
 
             <Spinner
@@ -130,7 +130,7 @@
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:paddingTop="20dp">
+            android:paddingTop="15dp">
 
             <Button
                 android:id="@+id/buttonFavDelete"
@@ -155,7 +155,7 @@
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:paddingTop="10dp">
+            android:paddingTop="5dp">
 
             <TextView
                 android:layout_width="0dp"
@@ -170,7 +170,7 @@
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:paddingTop="10dp">
+            android:paddingTop="5dp">
 
 
             <Spinner
@@ -184,7 +184,7 @@
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="20dp"
-            android:paddingTop="10dp">
+            android:paddingTop="5dp">
 
             <TextView
                 android:layout_width="0dp"

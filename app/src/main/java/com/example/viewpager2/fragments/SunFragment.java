@@ -90,15 +90,14 @@ public class SunFragment extends Fragment implements MainFrameActivity.SunMoonRe
         sunSunsetAzimuthTextView.setText(getArguments().getString(ProjectConstants.BUNDLE_SUN_SET_AZIMUTH, "NO DATA"));
         sunCivilEveningTwilightTextView.setText(getArguments().getString(ProjectConstants.BUNDLE_SUN_CIVIL_EVENING_TWILIGHT, "NO DATA"));
         sunCivilMorningTwilightTextView.setText(getArguments().getString(ProjectConstants.BUNDLE_SUN_CIVIL_MORNING_TWILIGHT, "NO DATA"));
+        if (getActivity() instanceof MainFrameActivity) {
+            ((MainFrameActivity) getActivity()).addSubscriberFragment(this);
+        }
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-
-        if (getActivity() instanceof MainFrameActivity) {
-            ((MainFrameActivity) getActivity()).addSubscriberFragment(this);
-        }
     }
 
     public interface OnFragmentInteractionListener {

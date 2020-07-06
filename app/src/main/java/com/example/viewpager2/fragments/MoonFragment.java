@@ -34,9 +34,8 @@ public class MoonFragment extends Fragment implements MainFrameActivity.SunMoonR
     private TextView moonPhaseTextView;
     private TextView moonSynodicMonth;
     private TextView moonLongitute;
-
-
     private TextView moonLatitude;
+
     private static final String ARG_COUNT = "param1";
     private Integer counter;
 
@@ -84,6 +83,8 @@ public class MoonFragment extends Fragment implements MainFrameActivity.SunMoonR
         moonLatitude = getView().findViewById(R.id.moon_latitude);
         moonLongitute = getView().findViewById(R.id.moon_longitude);
 
+        moonLongitute.setText(getArguments().getString("longitude","NO DATA"));
+        moonLatitude.setText(getArguments().getString("latitude","NO DATA"));
         currentTimeTextView.setText(getArguments().getString("DATE", "NO DATA"));
         moonRiseTextView.setText(getArguments().getString(ProjectConstants.BUNDLE_MOON_RISE_TIME, "NO DATA"));
         moonWaneTextView.setText(getArguments().getString(ProjectConstants.BUNDLE_MOON_SET_TIME, "NO DATA"));
@@ -91,17 +92,17 @@ public class MoonFragment extends Fragment implements MainFrameActivity.SunMoonR
         moonFullTextView.setText(getArguments().getString(ProjectConstants.BUNDLE_MOON_FULL, "NO DATA"));
         moonPhaseTextView.setText(getArguments().getString(ProjectConstants.BUNDLE_MOON_PHASE, "NO DATA"));
         moonSynodicMonth.setText(getArguments().getString(ProjectConstants.BUNDLE_MOON_SYNODIC, "NO DATA"));
-        moonLongitute.setText(getArguments().getString("longitude"));
-        moonLatitude.setText(getArguments().getString("latitude"));
+
+        if (getActivity() instanceof MainFrameActivity) {
+            ((MainFrameActivity) getActivity()).addSubscriberFragment(this);
+        }
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
 
-        if (getActivity() instanceof MainFrameActivity) {
-            ((MainFrameActivity) getActivity()).addSubscriberFragment(this);
-        }
+
     }
 
     public interface OnFragmentInteractionListener {

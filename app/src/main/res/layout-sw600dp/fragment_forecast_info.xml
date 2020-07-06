@@ -3,57 +3,34 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorAccent"
-    tools:context=".fragments.MoonFragment">
+    android:background="@color/blue_100"
+    tools:context=".fragments.ForecastInfoFragment">
 
-    <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <TableLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:shrinkColumns="0,1"
-        android:stretchColumns="1">
+        android:stretchColumns="3">
 
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:paddingTop="10dp">
+            android:paddingTop="60dp">
 
             <TextView
                 android:layout_width="0dp"
-                android:textSize="30dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:textSize="30dp"
+                android:gravity="center"
                 android:text="Bieżący czas:"
                 android:textColor="@android:color/white" />
 
             <TextView
-                android:id="@+id/moon_current_time_txt_view"
+                android:id="@+id/city_current_time_txt_view"
                 android:layout_width="0dp"
-                android:textSize="30dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="notFound"
-                android:textColor="@android:color/white" />
-        </TableRow>
-
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:paddingTop="10dp">
-
-            <TextView
-                android:layout_width="0dp"
                 android:textSize="30dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="Długość geograficzna:"
-                android:textColor="@android:color/white" />
-
-            <TextView
-                android:id="@+id/moon_longitude"
-                android:layout_width="0dp"
-                android:textSize="30dp"
-                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:text="notFound"
                 android:textColor="@android:color/white" />
@@ -62,162 +39,163 @@
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:paddingTop="10dp">
+            android:paddingTop="40dp">
 
             <TextView
+                android:id="@+id/forecast_day1"
                 android:layout_width="0dp"
-                android:textSize="30dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="Szerokość geograficzna:"
-                android:textColor="@android:color/white" />
-
-            <TextView
-                android:id="@+id/moon_latitude"
-                android:layout_width="0dp"
+                android:gravity="center"
                 android:textSize="30dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
                 android:text="notFound"
                 android:textColor="@android:color/white" />
+
+            <TextView
+                android:id="@+id/forecast_temp1"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="notFound"
+                android:textSize="30dp"
+                android:layout_marginRight="20dp"
+                android:textColor="@android:color/white" />
+
+            <ImageView
+                android:id="@+id/forecast_image1"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginRight="40dp"
+                android:src="@drawable/error" />
         </TableRow>
 
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:paddingTop="10dp">
+            android:paddingTop="40dp">
 
             <TextView
+                android:id="@+id/forecast_day2"
                 android:layout_width="0dp"
-                android:textSize="30dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="Wschód:"
-                android:textColor="@android:color/white" />
-
-            <TextView
-                android:id="@+id/moon_rise_txt_view"
-                android:layout_width="0dp"
                 android:textSize="30dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:gravity="center"
                 android:text="notFound"
                 android:textColor="@android:color/white" />
-        </TableRow>
 
+            <TextView
+                android:id="@+id/forecast_temp2"
+                android:layout_height="match_parent"
+                android:layout_marginRight="20dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textSize="30dp"
+                android:text="notFound"
+                android:textColor="@android:color/white" />
+
+            <ImageView
+                android:id="@+id/forecast_image2"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginRight="40dp"
+                android:src="@drawable/error" />
+        </TableRow>
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:paddingTop="10dp">
+            android:paddingTop="40dp">
 
             <TextView
+                android:id="@+id/forecast_day3"
                 android:layout_width="0dp"
                 android:textSize="30dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="Zachód:"
-                android:textColor="@android:color/white" />
-
-            <TextView
-                android:id="@+id/moon_wane_txt_view"
-                android:layout_width="0dp"
-                android:textSize="30dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:gravity="center"
                 android:text="notFound"
                 android:textColor="@android:color/white" />
-        </TableRow>
 
+            <TextView
+                android:id="@+id/forecast_temp3"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginRight="20dp"
+                android:textSize="30dp"
+                android:gravity="center"
+                android:text="notFound"
+                android:textColor="@android:color/white" />
+
+            <ImageView
+                android:id="@+id/forecast_image3"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginRight="40dp"
+                android:src="@drawable/error" />
+        </TableRow>
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:paddingTop="10dp">
+            android:paddingTop="40dp">
 
             <TextView
+                android:id="@+id/forecast_day4"
                 android:layout_width="0dp"
                 android:textSize="30dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="Nów:"
-                android:textColor="@android:color/white" />
-
-            <TextView
-                android:id="@+id/moon_new_moon_txt_view"
-                android:layout_width="0dp"
-                android:textSize="30dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:gravity="center"
                 android:text="notFound"
                 android:textColor="@android:color/white" />
-        </TableRow>
 
+            <TextView
+                android:id="@+id/forecast_temp4"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:layout_marginRight="20dp"
+                android:textSize="30dp"
+                android:text="notFound"
+                android:textColor="@android:color/white" />
+
+            <ImageView
+                android:id="@+id/forecast_image4"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginRight="40dp"
+                android:src="@drawable/error" />
+        </TableRow>
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:paddingTop="10dp">
+            android:paddingTop="40dp">
 
             <TextView
+                android:id="@+id/forecast_day5"
                 android:layout_width="0dp"
-                android:textSize="30dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="Pełnia:"
+                android:gravity="center"
+                android:text="notFound"
+                android:textSize="30dp"
                 android:textColor="@android:color/white" />
 
             <TextView
-                android:id="@+id/moon_full_txt_view"
-                android:layout_width="0dp"
-                android:textSize="30dp"
+                android:id="@+id/forecast_temp5"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:layout_marginRight="20dp"
+                android:gravity="center"
+                android:textSize="30dp"
                 android:text="notFound"
                 android:textColor="@android:color/white" />
-        </TableRow>
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:paddingTop="10dp">
-
-            <TextView
-                android:layout_width="0dp"
-                android:textSize="30dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="Faza Księżyca:"
-                android:textColor="@android:color/white" />
-
-            <TextView
-                android:id="@+id/moon_phase_moon_txt_view"
-                android:layout_width="0dp"
-                android:textSize="30dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="notFound"
-                android:textColor="@android:color/white" />
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:paddingTop="10dp">
-
-            <TextView
-                android:layout_width="0dp"
-                android:textSize="30dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="Dzień synodyczny:"
-                android:textColor="@android:color/white" />
-
-            <TextView
-                android:id="@+id/moon_synodic_month_txt_view"
-                android:layout_width="0dp"
-                android:textSize="30dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="notFound"
-                android:textColor="@android:color/white" />
+            <ImageView
+                android:id="@+id/forecast_image5"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginRight="40dp"
+                android:src="@drawable/error" />
         </TableRow>
     </TableLayout>
 </FrameLayout>
