@@ -189,6 +189,13 @@ public class ForecastInfoFragment extends Fragment implements MainFrameActivity.
         super.onDetach();
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (getActivity() instanceof MainFrameActivity) {
+            ((MainFrameActivity) getActivity()).deleteSubscriberApiListener(this);
+        }
+    }
 
     void setImage(Integer code, ImageView imageView) {
         switch (code) {

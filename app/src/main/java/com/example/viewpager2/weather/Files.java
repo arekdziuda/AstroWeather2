@@ -3,6 +3,7 @@ package com.example.viewpager2.weather;
 import android.app.Activity;
 import android.os.Build;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 

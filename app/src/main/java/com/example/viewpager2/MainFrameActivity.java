@@ -14,6 +14,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.android.volley.Request;
@@ -255,6 +257,10 @@ public class MainFrameActivity extends AppCompatActivity {
 
     public void addSubscriberApiListener(ApiRefreshableUI subscriber) {
         this.apiSubscribersList.add(subscriber);
+    }
+
+    public void deleteSubscriberApiListener(ApiRefreshableUI subscriber) {
+        apiSubscribersList.remove(subscriber);
     }
 
     public interface SunMoonRefreshableUI {

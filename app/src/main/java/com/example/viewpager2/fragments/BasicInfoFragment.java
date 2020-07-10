@@ -87,7 +87,6 @@ public class BasicInfoFragment extends Fragment implements MainFrameActivity.Api
         city_name = getView().findViewById(R.id.city_name);
         city_weather_describe = getView().findViewById(R.id.city_weather_describe);
         imageView = getView().findViewById(R.id.imageView);
-
         if (getActivity() instanceof MainFrameActivity) {
             try {
                 refreshApiWeather(((MainFrameActivity) getActivity()).getContextOfMainFrame(), ((MainFrameActivity) getActivity()).getJsonObject(), ((MainFrameActivity) getActivity()).getNameOfCity(), ((MainFrameActivity) getActivity()).getIsFahrenheit());
@@ -99,9 +98,16 @@ public class BasicInfoFragment extends Fragment implements MainFrameActivity.Api
     }
 
     @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (getActivity() instanceof MainFrameActivity) {
+            ((MainFrameActivity) getActivity()).deleteSubscriberApiListener(this);
+        }
+    }
+
+    @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-
     }
 
     @Override
@@ -142,18 +148,18 @@ public class BasicInfoFragment extends Fragment implements MainFrameActivity.Api
             return;
         }
 
-        JSONObject locationObject = jsonObject.getJSONObject("location");
-        city_longitude.setText(locationObject.getString("long"));
-        city_latitude.setText(locationObject.getString("lat"));
-        city_name.setText(locationObject.getString("city"));
-        JSONObject current_observationObject = jsonObject.getJSONObject("current_observation");
-        JSONObject atmosphereObject = current_observationObject.getJSONObject("atmosphere");
-        city_pressure.setText(atmosphereObject.getString("pressure") + unitPressure(isFahrenheit));
-        JSONObject conditionObject = current_observationObject.getJSONObject("condition");
-        city_temperature.setText(conditionObject.getString("temperature") + unitTemperature(isFahrenheit));
-        city_weather_describe.setText(conditionObject.getString("text"));
-        setImage(Integer.valueOf(conditionObject.getString("code")), (ImageView) getView().findViewById(R.id.imageView));
-
+        System.out.println("Poka mnie to " + context);
+            JSONObject locationObject = jsonObject.getJSONObject("location");
+            city_longitude.setText(locationObject.getString("long"));
+            city_latitude.setText(locationObject.getString("lat"));
+            city_name.setText(locationObject.getString("city"));
+            JSONObject current_observationObject = jsonObject.getJSONObject("current_observation");
+            JSONObject atmosphereObject = current_observationObject.getJSONObject("atmosphere");
+            city_pressure.setText(atmosphereObject.getString("pressure") + unitPressure(isFahrenheit));
+            JSONObject conditionObject = current_observationObject.getJSONObject("condition");
+            city_temperature.setText(conditionObject.getString("temperature") + unitTemperature(isFahrenheit));
+            city_weather_describe.setText(conditionObject.getString("text"));
+            setImage(Integer.valueOf(conditionObject.getString("code")), (ImageView) getView().findViewById(R.id.imageView));
     }
 
     private String unitTemperature(boolean isFahrenheit) {
@@ -259,6 +265,4 @@ public class BasicInfoFragment extends Fragment implements MainFrameActivity.Api
                 break;
         }
     }
-
-
 }
